@@ -48,7 +48,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           docker run --rm \
-            -u $(id -u):$(id -g) \
             -v ${{ github.workspace }}:/app \
             -w /app \
             -e GIT_USER_NAME="github-actions" \
