@@ -3,11 +3,11 @@ name: Build and Deploy MkDocs Site
 on:
   push:
     branches:
-      - main  # Trigger on push to the main branch
+      - main
   pull_request:
     branches:
-      - main  # Trigger on pull request to the main branch
-  workflow_dispatch:  # Allows manual triggering of the workflow
+      - main
+  workflow_dispatch:
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/burkimba_docs
@@ -21,7 +21,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensure the full history is fetched to avoid issues with ghp-import
+          fetch-depth: 0
       
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -34,19 +34,15 @@ jobs:
       
       - name: Build MkDocs site
         run: |
-          docker run --rm -v ${{ github.workspace }}:/app -w /app ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} mkdocs build --verbose --site-dir site
+          docker run --rm -v ${{ github.workspace }}:/app -w /app ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} mkdocs build --verbose --site-dir ./site
       
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker run --rm -v ${{ github.workspace }}:/app -w /app ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} /bin/bash -c "
-            git config --global --add safe.directory /app &&
-            git config --global user.email 'github-actions@github.com' &&
-            git config --global user.name 'github-actions' &&
-            ghp-import -n -p -f site
-          "
+        uses: JamesIves/github-pages-deploy-action@4.1.7
+        with:
+          branch: gh-pages
+          folder: site
+          clean: true
       
       - name: Clean up Docker resources
         run: docker system prune -f
