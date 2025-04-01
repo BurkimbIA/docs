@@ -29,10 +29,15 @@ jobs:
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           docker run --rm -v ${{ github.workspace }}:/app -w /app ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} /bin/bash -c "
             git config --global --add safe.directory /app &&
-            ghp-import -n -p -f site"
+            git config --global user.email 'github-actions@github.com' &&
+            git config --global user.name 'github-actions' &&
+            ghp-import -n -p -f site --push-options='-o https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git'"
+          
       - name: Clean up Docker resources
         run: docker system prune -f
 
