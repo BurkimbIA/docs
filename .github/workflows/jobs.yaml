@@ -43,12 +43,31 @@ jobs:
       
       - name: Install ghp-import
         run: pip install ghp-import
-        
+
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          # Using PAT instead of GITHUB_TOKEN
-          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          ghp-import -n -p -f site
+          docker run --rm \
+            -u $(id -u):$(id -g) \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            -e GIT_USER_NAME="github-actions" \
+            -e GIT_USER_EMAIL="github-actions@github.com" \
+            -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+            ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            /bin/bash -c "
+              git config --global --add safe.directory /app &&
+              git config --global user.name \"${GIT_USER_NAME}\" &&
+              git config --global user.email \"${GIT_USER_EMAIL}\" &&
+              git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git &&
+              ghp-import -n -p -f site"
+
+        
+      # - name: Deploy to GitHub Pages
+      #   if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     git config --global user.name "github-actions"
+      #     git config --global user.email "github-actions@github.com"
+      #     # Using PAT instead of GITHUB_TOKEN
+      #     git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+      #     ghp-import -n -p -f site
