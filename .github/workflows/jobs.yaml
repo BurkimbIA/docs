@@ -16,17 +16,26 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensure the full history is fetche to avoid issues with ghp-impo
-
+          fetch-depth: 0  # Ensure the full history is fetched to avoid issues with ghp-import
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Pull Docker image
+        run: docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      
       - name: Build MkDocs site
         run: |
           docker run --rm -v ${{ github.workspace }}:/app -w /app ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} mkdocs build --verbose --site-dir site
-
+      
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         env:
@@ -36,7 +45,8 @@ jobs:
             git config --global --add safe.directory /app &&
             git config --global user.email 'github-actions@github.com' &&
             git config --global user.name 'github-actions' &&
-            ghp-import -n -p -f site 
+            ghp-import -n -p -f site
+          "
+      
       - name: Clean up Docker resources
         run: docker system prune -f
-
