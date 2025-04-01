@@ -9,6 +9,7 @@ on:
       - main
   workflow_dispatch:
 
+# Explicitly set permissions
 permissions:
   contents: read
   pages: write
@@ -38,8 +39,11 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/app -w /app ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} mkdocs build --verbose --site-dir ./_site
       
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./_site
 
@@ -53,4 +57,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v1
