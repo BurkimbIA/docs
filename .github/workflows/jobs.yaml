@@ -41,9 +41,6 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/app -w /app ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} mkdocs build --verbose
       
-      - name: Install ghp-import
-        run: pip install ghp-import
-
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         run: |
@@ -61,12 +58,4 @@ jobs:
               git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git &&
               ghp-import -n -p -f site"
 
-        
-      # - name: Deploy to GitHub Pages
-      #   if: github.ref == 'refs/heads/main'
-      #   run: |
-      #     git config --global user.name "github-actions"
-      #     git config --global user.email "github-actions@github.com"
-      #     # Using PAT instead of GITHUB_TOKEN
-      #     git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-      #     ghp-import -n -p -f site
+

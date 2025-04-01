@@ -6,7 +6,6 @@ on:
       - requirements.txt
       - Dockerfile
 
-
     branches:
       - main
   workflow_dispatch:  # Allows manual triggering of the workflow
