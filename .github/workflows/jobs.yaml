@@ -36,8 +36,7 @@ jobs:
             git config --global --add safe.directory /app &&
             git config --global user.email 'github-actions@github.com' &&
             git config --global user.name 'github-actions' &&
-            ghp-import -n -p -f site --push-options='-o https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git'"
-          
+            ghp-import -n -p -f site 
       - name: Clean up Docker resources
         run: docker system prune -f
 
