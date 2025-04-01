@@ -108,5 +108,4 @@ wcmatch
 zipp
 
 mkdocs-awesome-nav
-mkdocs-
 
