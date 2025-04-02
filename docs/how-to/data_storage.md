@@ -33,7 +33,8 @@ Each object inside a bucket has a **unique key (path)**, just like files inside 
 
 Our bucket can be viewed directly on the site **Flio** at [Fly Storage](https://fly.storage.tigris.dev). Simply scroll down on the main page, select **Tigris Object Storage**, and access your data.  
 
-![alt text](assets/browse_flio.png)  
+![alt text](assets/browse_flio.png) 
+![alt text](image.png) 
 
 Now, let’s navigate to a specific path and explore the stored data:  
 
@@ -121,7 +122,7 @@ You'll often need to see what files are stored in your bucket. Here's how to do 
 ### Listing with `s3fs`
 
 ```python
-BUCKET_NAME = "your-bucket-name"
+BUCKET_NAME = "burkimbia"
 prefix = "optional/folder/prefix/"  # Optional: Filter files within a specific folder
 
 try:
@@ -148,7 +149,7 @@ def list_s3_files(s3_client, bucket_name, prefix=""):
         print(f"Error listing files: {e}")
         return []
 
-BUCKET_NAME = "BurkimbIA"
+BUCKET_NAME = "burkimbia"
 prefix = "sandbox/raw_data/"
 
 file_list = list_s3_files(s3_client, BUCKET_NAME, prefix)
@@ -171,7 +172,7 @@ def upload_file_to_s3(s3_client, local_path, bucket_name, s3_key):
     except Exception as e:
         print(f"Error uploading '{local_path}': {e}")
 
-BUCKET_NAME = "BurkimbIA"
+BUCKET_NAME = "burkimbia"
 local_file_path = "path/to/your/local_file.txt"
 s3_object_key = "sandbox/cooked_data/uploaded_file.txt"
 
@@ -191,7 +192,7 @@ def download_file_from_s3(s3_client, bucket_name, s3_key, local_path):
     except Exception as e:
         print(f"Error downloading 's3://{bucket_name}/{s3_key}': {e}")
 
-BUCKET_NAME = "BurkimbIA"
+BUCKET_NAME = "burkimbia"
 s3_object_key = "path/to/your/file/in/s3.txt"
 local_file_path = "path/to/save/downloaded_file.txt"
 
@@ -207,7 +208,7 @@ Often, you'll want to read data directly from S3 into your applications without 
 ```python
 import json
 
-BUCKET_NAME = "BurkimbIA"
+BUCKET_NAME = "burkimbia"
 s3_json_path = f"{BUCKET_NAME}/sandbox/cooked_data/data.json"
 
 try:
@@ -225,7 +226,7 @@ The `pandas` library can directly read and write CSV files from and to S3 using 
 ```python
 import pandas as pd
 
-BUCKET_NAME = "BurkimbIA"
+BUCKET_NAME = "burkimbia"
 s3_csv_path = f"{BUCKET_NAME}/sandbox/cooked_data/data.csv"
 s3_parquet_path = f"{BUCKET_NAME}/sandbox/cooked_data/data.parquet"
 
