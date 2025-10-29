@@ -11,7 +11,7 @@
       
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../deploiement_llm_serverless/">
       
       
         <link rel="next" href="../../how-to/data_storage/">
@@ -22,7 +22,7 @@
     
     
       
-        <title>SOTA for Machine Translation System - BurkimbIA</title>
+        <title>machine translation stack - BurkimbIA</title>
       
     
     
@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#sota-for-machine-translation-system" class="md-skip">
+        <a href="#machine-translation-stack" class="md-skip">
           Skip to content
         </a>
       
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              SOTA for Machine Translation System
+              machine translation stack
             
           </span>
         </div>
@@ -252,7 +252,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../deploiement_llm_serverless/" class="md-tabs__link">
           
   
   Explanations
@@ -428,6 +428,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../deploiement_llm_serverless/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    deploiement llm sans cluster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -444,7 +465,7 @@
           
   
   <span class="md-ellipsis">
-    SOTA for Machine Translation System
+    machine translation stack
   </span>
   
 
@@ -455,7 +476,7 @@
         
   
   <span class="md-ellipsis">
-    SOTA for Machine Translation System
+    machine translation stack
   </span>
   
 
@@ -477,79 +498,46 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-introduction" class="md-nav__link">
+  <a href="#objectifs-du-systeme" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Introduction
+      objectifs du systeme
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-text-to-text-translation-mt" class="md-nav__link">
+  <a href="#text-to-text" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Text-to-Text Translation (MT)
+      text to text
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Text-to-Text Translation (MT)">
+    <nav class="md-nav" aria-label="text to text">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-model-selection" class="md-nav__link">
+  <a href="#modeles-a-privilegier" class="md-nav__link">
     <span class="md-ellipsis">
-      2.1. Model Selection
+      modeles a privilegier
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#22-benchmarking-nllb-against-previous-models" class="md-nav__link">
+  <a href="#ameliorations-cibles" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2. Benchmarking NLLB Against Previous Models
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2.2. Benchmarking NLLB Against Previous Models">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#evaluation-criteria" class="md-nav__link">
-    <span class="md-ellipsis">
-      Evaluation Criteria:
+      ameliorations cibles
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#benchmarking-summary" class="md-nav__link">
+  <a href="#mesures-de-qualite" class="md-nav__link">
     <span class="md-ellipsis">
-      Benchmarking Summary:
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#23-techniques-for-improving-translation-performance" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.3. Techniques for Improving Translation Performance
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24-evaluation-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.4. Evaluation Metrics
+      mesures de qualite
     </span>
   </a>
   
@@ -561,70 +549,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-stt-automatic-speech-recognition-for-moore" class="md-nav__link">
+  <a href="#speech-to-text" class="md-nav__link">
     <span class="md-ellipsis">
-      3. STT – Automatic Speech Recognition for Moore
+      speech to text
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. STT – Automatic Speech Recognition for Moore">
+    <nav class="md-nav" aria-label="speech to text">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-model-selection" class="md-nav__link">
+  <a href="#options-de-modele" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1. Model Selection
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3.1. Model Selection">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#311-whisper-openai-pretrained-model-approach" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1.1. Whisper (OpenAI) – Pretrained Model Approach
+      options de modele
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#312-wave2vec-20-facebook-ai" class="md-nav__link">
+  <a href="#collecte-et-augmentation" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1.2. Wave2Vec 2.0 (Facebook AI)
+      collecte et augmentation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#312-from-scratch-stt-model" class="md-nav__link">
+  <a href="#suivi-de-performance" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1.2. From-Scratch STT Model
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-data-collection-augmentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.2. Data Collection &amp; Augmentation
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-evaluation-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.3. Evaluation Metrics
+      suivi de performance
     </span>
   </a>
   
@@ -636,37 +591,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-tts-speech-synthesis-for-moore" class="md-nav__link">
+  <a href="#text-to-speech" class="md-nav__link">
     <span class="md-ellipsis">
-      4. TTS – Speech Synthesis for Moore
+      text to speech
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="4. TTS – Speech Synthesis for Moore">
+    <nav class="md-nav" aria-label="text to speech">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#41-model-selection" class="md-nav__link">
+  <a href="#modeles-candidats" class="md-nav__link">
     <span class="md-ellipsis">
-      4.1. Model Selection
+      modeles candidats
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#42-techniques-for-improvement" class="md-nav__link">
+  <a href="#leviers-de-progression" class="md-nav__link">
     <span class="md-ellipsis">
-      4.2. Techniques for Improvement
+      leviers de progression
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#43-evaluation-metrics" class="md-nav__link">
+  <a href="#metriques-clefs" class="md-nav__link">
     <span class="md-ellipsis">
-      4.3. Evaluation Metrics
+      metriques clefs
     </span>
   </a>
   
@@ -678,28 +633,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-pipeline-integration-deployment" class="md-nav__link">
+  <a href="#integration-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
-      5. Pipeline Integration &amp; Deployment
+      integration pipeline
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. Pipeline Integration & Deployment">
+    <nav class="md-nav" aria-label="integration pipeline">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ttt" class="md-nav__link">
+  <a href="#traduction-ecrite" class="md-nav__link">
     <span class="md-ellipsis">
-      TTT
+      traduction ecrite
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#tts" class="md-nav__link">
+  <a href="#chaine-voix" class="md-nav__link">
     <span class="md-ellipsis">
-      TTS
+      chaine voix
     </span>
   </a>
   
@@ -711,9 +666,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-challenges" class="md-nav__link">
+  <a href="#defis-a-surveiller" class="md-nav__link">
     <span class="md-ellipsis">
-      6. Challenges
+      defis a surveiller
     </span>
   </a>
   
@@ -858,7 +813,7 @@
         
   
   <span class="md-ellipsis">
-    References
+    documentation style
   </span>
   
 
@@ -938,6 +893,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/runpod_serverless/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    runpod serverless llm tutoriel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -972,79 +948,46 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-introduction" class="md-nav__link">
+  <a href="#objectifs-du-systeme" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Introduction
+      objectifs du systeme
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-text-to-text-translation-mt" class="md-nav__link">
+  <a href="#text-to-text" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Text-to-Text Translation (MT)
+      text to text
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Text-to-Text Translation (MT)">
+    <nav class="md-nav" aria-label="text to text">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-model-selection" class="md-nav__link">
+  <a href="#modeles-a-privilegier" class="md-nav__link">
     <span class="md-ellipsis">
-      2.1. Model Selection
+      modeles a privilegier
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#22-benchmarking-nllb-against-previous-models" class="md-nav__link">
+  <a href="#ameliorations-cibles" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2. Benchmarking NLLB Against Previous Models
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2.2. Benchmarking NLLB Against Previous Models">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#evaluation-criteria" class="md-nav__link">
-    <span class="md-ellipsis">
-      Evaluation Criteria:
+      ameliorations cibles
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#benchmarking-summary" class="md-nav__link">
+  <a href="#mesures-de-qualite" class="md-nav__link">
     <span class="md-ellipsis">
-      Benchmarking Summary:
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#23-techniques-for-improving-translation-performance" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.3. Techniques for Improving Translation Performance
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24-evaluation-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.4. Evaluation Metrics
+      mesures de qualite
     </span>
   </a>
   
@@ -1056,70 +999,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-stt-automatic-speech-recognition-for-moore" class="md-nav__link">
+  <a href="#speech-to-text" class="md-nav__link">
     <span class="md-ellipsis">
-      3. STT – Automatic Speech Recognition for Moore
+      speech to text
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. STT – Automatic Speech Recognition for Moore">
+    <nav class="md-nav" aria-label="speech to text">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-model-selection" class="md-nav__link">
+  <a href="#options-de-modele" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1. Model Selection
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3.1. Model Selection">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#311-whisper-openai-pretrained-model-approach" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1.1. Whisper (OpenAI) – Pretrained Model Approach
+      options de modele
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#312-wave2vec-20-facebook-ai" class="md-nav__link">
+  <a href="#collecte-et-augmentation" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1.2. Wave2Vec 2.0 (Facebook AI)
+      collecte et augmentation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#312-from-scratch-stt-model" class="md-nav__link">
+  <a href="#suivi-de-performance" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1.2. From-Scratch STT Model
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-data-collection-augmentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.2. Data Collection &amp; Augmentation
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-evaluation-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.3. Evaluation Metrics
+      suivi de performance
     </span>
   </a>
   
@@ -1131,37 +1041,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-tts-speech-synthesis-for-moore" class="md-nav__link">
+  <a href="#text-to-speech" class="md-nav__link">
     <span class="md-ellipsis">
-      4. TTS – Speech Synthesis for Moore
+      text to speech
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="4. TTS – Speech Synthesis for Moore">
+    <nav class="md-nav" aria-label="text to speech">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#41-model-selection" class="md-nav__link">
+  <a href="#modeles-candidats" class="md-nav__link">
     <span class="md-ellipsis">
-      4.1. Model Selection
+      modeles candidats
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#42-techniques-for-improvement" class="md-nav__link">
+  <a href="#leviers-de-progression" class="md-nav__link">
     <span class="md-ellipsis">
-      4.2. Techniques for Improvement
+      leviers de progression
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#43-evaluation-metrics" class="md-nav__link">
+  <a href="#metriques-clefs" class="md-nav__link">
     <span class="md-ellipsis">
-      4.3. Evaluation Metrics
+      metriques clefs
     </span>
   </a>
   
@@ -1173,28 +1083,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-pipeline-integration-deployment" class="md-nav__link">
+  <a href="#integration-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
-      5. Pipeline Integration &amp; Deployment
+      integration pipeline
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. Pipeline Integration & Deployment">
+    <nav class="md-nav" aria-label="integration pipeline">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ttt" class="md-nav__link">
+  <a href="#traduction-ecrite" class="md-nav__link">
     <span class="md-ellipsis">
-      TTT
+      traduction ecrite
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#tts" class="md-nav__link">
+  <a href="#chaine-voix" class="md-nav__link">
     <span class="md-ellipsis">
-      TTS
+      chaine voix
     </span>
   </a>
   
@@ -1206,9 +1116,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-challenges" class="md-nav__link">
+  <a href="#defis-a-surveiller" class="md-nav__link">
     <span class="md-ellipsis">
-      6. Challenges
+      defis a surveiller
     </span>
   </a>
   
@@ -1232,204 +1142,95 @@
   
 
 
-<h1 id="sota-for-machine-translation-system">SOTA for Machine Translation System<a class="headerlink" href="#sota-for-machine-translation-system" title="Permanent link">&para;</a></h1>
-<h2 id="1-introduction"><strong>1. Introduction</strong><a class="headerlink" href="#1-introduction" title="Permanent link">&para;</a></h2>
-<p>Develop a modular, scalable, and open-source machine translation system for the Moore language, one of the major languages spoken in Burkina Faso. </p>
-<p>A system with three primary components:</p>
-<ol>
-<li>
-<p><strong>Text-to-Text Translation (MT)</strong>: Translation between French and Moore.</p>
-</li>
-<li>
-<p><strong>Speech-to-Text (STT)</strong>: Converting spoken French and Moore into text.</p>
-</li>
-<li>
-<p><strong>Text-to-Speech (TTS)</strong>: Converting translated text into natural-sounding speech in Moore.</p>
-</li>
-</ol>
-<p>Given that Moore is a low-resource language with limited labeled data --&gt; <strong>state-of-the-art (SOTA) deep learning models</strong> while leveraging <strong>fine-tuning, transfer learning, and domain adaptation</strong> techniques.</p>
-<p><em>Specificity of Moore language</em>: A lot of monolingual data</p>
-<p>This document attempts to provide a <strong>technical overview</strong> for the selection, adaptation, and deployment of models and discusses key challenges, solutions, and future directions.</p>
-<h2 id="2-text-to-text-translation-mt"><strong>2. Text-to-Text Translation (MT)</strong><a class="headerlink" href="#2-text-to-text-translation-mt" title="Permanent link">&para;</a></h2>
-<h3 id="21-model-selection"><strong>2.1. Model Selection</strong><a class="headerlink" href="#21-model-selection" title="Permanent link">&para;</a></h3>
-<p>SOTA models nowadays are focused on <strong>Transformer-based architectures</strong>. They have become the standard in machine translation (MT). </p>
-<p>Interesting options to explore:</p>
+<h1 id="machine-translation-stack">machine translation stack<a class="headerlink" href="#machine-translation-stack" title="Permanent link">&para;</a></h1>
+<p>Cette note expose notre approche pour un systeme de traduction couvrant le francais et le moore. L'objectif est de rester opensource, modulaire et realiste pour une equipe reduite.</p>
+<h2 id="objectifs-du-systeme">objectifs du systeme<a class="headerlink" href="#objectifs-du-systeme" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong><a href="https://arxiv.org/abs/2001.08210">mBART-50</a></strong> (Facebook AI): A multilingual denoising autoencoder trained on 50 languages, capable of unsupervised translation and adaptation.</li>
-<li><strong><a href="https://arxiv.org/abs/2010.11125">M2M-100</a></strong> (Facebook AI): A fully multilingual model supporting direct translation between 100 languages without relying on English as an intermediary.</li>
-<li><strong><a href="https://github.com/Helsinki-NLP/Opus-MT">MarianMT / OPUS-MT</a></strong>: Open-source Transformer models trained on OPUS parallel corpora, well-suited for low-resource languages.</li>
-<li>
-<p><strong><a href="https://ai.meta.com/research/no-language-left-behind/">NLLB 200</a></strong>  At scaling machine translation across thousands of language</p>
-</li>
-<li>
-<p><strong>Other interesting option is LLM Lightweight Fine-Tuning – Mistral (https://mistral.ai/)</strong> we can use other models also that are light phi, llama, ....</p>
-</li>
+<li>text-to-text: traduction bidirectionnelle entre francais et moore.</li>
+<li>speech-to-text: transcription des audios francais et moore.</li>
+<li>text-to-speech: generation de parole naturelle en moore.</li>
 </ul>
-<h3 id="22-benchmarking-nllb-against-previous-models"><strong>2.2. Benchmarking NLLB Against Previous Models</strong><a class="headerlink" href="#22-benchmarking-nllb-against-previous-models" title="Permanent link">&para;</a></h3>
-<h4 id="evaluation-criteria"><strong>Evaluation Criteria:</strong><a class="headerlink" href="#evaluation-criteria" title="Permanent link">&para;</a></h4>
+<p>Les ressources etiquetees restent rares, d'ou l'obligation de miser sur le transfert d'apprentissage et la quantification.</p>
+<h2 id="text-to-text">text to text<a class="headerlink" href="#text-to-text" title="Permanent link">&para;</a></h2>
+<h3 id="modeles-a-privilegier">modeles a privilegier<a class="headerlink" href="#modeles-a-privilegier" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Model Size and Inference Speed:</strong>  </li>
-<li><strong>NLLB</strong>: Although larger than some older models, it has been optimized for scalability and often leverages quantization techniques for faster inference on edge devices.  </li>
-<li>
-<p><strong>MarianMT/OPUS-MT</strong>: Generally lighter in terms of model parameters, which might be beneficial in resource-constrained environments, albeit sometimes at the cost of translation accuracy.</p>
-</li>
-<li>
-<p><strong>Adaptability to Low-Resource Languages:</strong><br />
-  NLLB is designed explicitly with low-resource languages in mind, offering tailored fine-tuning and domain adaptation strategies that give it an edge over more general models like mBART-50 and M2M-100 when applied to Moore.</p>
-</li>
-<li>
-<p><strong>Ease of Integration and Fine-Tuning:</strong><br />
-  All models support transfer learning and can be fine-tuned on domain-specific data. However, NLLB's architecture incorporates recent advances in multilingual training, potentially reducing the amount of fine-tuning required to achieve high accuracy.</p>
-</li>
+<li><a href="https://ai.meta.com/research/no-language-left-behind/"><code>nllb-200</code></a> pour la couverture des langues peu dotees.</li>
+<li><a href="https://arxiv.org/abs/2001.08210"><code>mbart-50</code></a> comme base polyvalente facile a affiner.</li>
+<li><a href="https://arxiv.org/abs/2010.11125"><code>m2m-100</code></a> pour eviter un pivot par l'anglais.</li>
+<li><a href="https://github.com/Helsinki-NLP/Opus-MT"><code>marianmt</code></a> lorsque l'on cherche un modele compacte.</li>
+<li><code>mistral 7b</code> ou autres <code>llm</code> legers apres quantification <code>int4</code>.</li>
 </ul>
-<h4 id="benchmarking-summary"><strong>Benchmarking Summary:</strong><a class="headerlink" href="#benchmarking-summary" title="Permanent link">&para;</a></h4>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>BLEU (Low-Resource)</th>
-<th>Inference Speed</th>
-<th>Model Size</th>
-<th>Adaptability to Moore</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>NLLB</strong></td>
-<td>High</td>
-<td>Moderate</td>
-<td>Large (~billions parameters)</td>
-<td>Excellent</td>
-</tr>
-<tr>
-<td><strong>mBART-50</strong></td>
-<td>Moderate to High</td>
-<td>Moderate</td>
-<td>Medium</td>
-<td>Not tested</td>
-</tr>
-<tr>
-<td><strong>M2M-100</strong></td>
-<td>Moderate</td>
-<td>Moderate</td>
-<td>Medium to Large</td>
-<td>Not tested</td>
-</tr>
-<tr>
-<td><strong>MarianMT/OPUS-MT</strong></td>
-<td>Moderate</td>
-<td>Fast</td>
-<td>Small</td>
-<td>Not tested</td>
-</tr>
-</tbody>
-</table>
-<h3 id="23-techniques-for-improving-translation-performance"><strong>2.3. Techniques for Improving Translation Performance</strong><a class="headerlink" href="#23-techniques-for-improving-translation-performance" title="Permanent link">&para;</a></h3>
+<h3 id="ameliorations-cibles">ameliorations cibles<a class="headerlink" href="#ameliorations-cibles" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Fine-tuning on domain-specific data</strong>: Training models with a curated <strong>French-Moore parallel corpus</strong>.</li>
-<li><strong>Back-translation</strong> (<a href="https://arxiv.org/abs/1609.08144">Reference</a>): Generating synthetic Moore-to-French translations to increase training data.</li>
-<li><strong>Data Augmentation &amp; Denoising</strong>: Introducing noise, paraphrasing, and synthetic data generation to improve robustness.</li>
-<li><strong>Adapter Layers</strong> (<a href="https://arxiv.org/abs/1902.00751">Reference</a>): Training lightweight adapter modules to specialize in Moore translation without modifying the entire model.</li>
-<li><strong>Self Labelling</strong>: Use STT models to transcribe audios</li>
+<li>constitution d'un corpus parallele francais-moore et fine tuning specifique.</li>
+<li>back translation pour augmenter artificiellement la portion moore.</li>
+<li>couches <code>adapter</code> pour personnaliser sans toucher a tous les poids.</li>
+<li>auto etiquetage via notre pipeline <code>stt</code> pour produire du parallele low-cost.</li>
 </ul>
-<h3 id="24-evaluation-metrics"><strong>2.4. Evaluation Metrics</strong><a class="headerlink" href="#24-evaluation-metrics" title="Permanent link">&para;</a></h3>
+<h3 id="mesures-de-qualite">mesures de qualite<a class="headerlink" href="#mesures-de-qualite" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>BLEU Score</strong> (<a href="https://www.aclweb.org/anthology/P02-1040.pdf">Reference</a>): Measures translation accuracy by comparing model outputs with human translations.</li>
-<li><strong>CHRF++</strong> (<a href="https://aclanthology.org/W16-2366.pdf">Reference</a>): A character-based metric useful for morphologically rich languages like Moore.</li>
-<li><strong>Human Evaluation</strong>: Moore speakers assess fluency and adequacy.</li>
+<li><code>bleu</code> et <code>chrf++</code> pour suivre les progres.</li>
+<li>evaluation humaine par nos locuteurs natifs.</li>
+<li>suivi de la latence pour garantir une inference acceptable sur <code>a4000</code> ou <code>a6000</code>.</li>
 </ul>
-<hr />
-<h2 id="3-stt-automatic-speech-recognition-for-moore"><strong>3. STT – Automatic Speech Recognition for Moore</strong><a class="headerlink" href="#3-stt-automatic-speech-recognition-for-moore" title="Permanent link">&para;</a></h2>
-<h3 id="31-model-selection"><strong>3.1. Model Selection</strong><a class="headerlink" href="#31-model-selection" title="Permanent link">&para;</a></h3>
-<h4 id="311-whisper-openai-pretrained-model-approach"><strong>3.1.1. Whisper (OpenAI) – Pretrained Model Approach</strong><a class="headerlink" href="#311-whisper-openai-pretrained-model-approach" title="Permanent link">&para;</a></h4>
+<h2 id="speech-to-text">speech to text<a class="headerlink" href="#speech-to-text" title="Permanent link">&para;</a></h2>
+<h3 id="options-de-modele">options de modele<a class="headerlink" href="#options-de-modele" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong><a href="https://openai.com/research/whisper">Whisper</a></strong>: A multilingual ASR model trained on a large and diverse dataset, supporting <strong>Moore transcription</strong> and direct speech translation.</li>
-<li><strong>Fine-tuning</strong>: We can enhance Whisper’s accuracy on Moore speech by training on additional labeled Moore audio data.</li>
+<li><a href="https://openai.com/research/whisper"><code>whisper</code></a> adapte au moore apres un leger affinement.</li>
+<li><a href="https://arxiv.org/abs/2006.11477"><code>wav2vec 2.0</code></a> pour profiter de l'apprentissage auto supervise.</li>
+<li>architectures <code>conformer</code> lorsque l'on veut pousser la precision.</li>
 </ul>
-<h4 id="312-wave2vec-20-facebook-ai"><strong>3.1.2. Wave2Vec 2.0 (Facebook AI)</strong><a class="headerlink" href="#312-wave2vec-20-facebook-ai" title="Permanent link">&para;</a></h4>
+<h3 id="collecte-et-augmentation">collecte et augmentation<a class="headerlink" href="#collecte-et-augmentation" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong><a href="https://ai.facebook.com/blog/wav2vec-20-learning-the-structure-of-speech-from-raw-audio/">Wav2Vec 2.0</a></strong>: A powerful self-supervised learning framework for speech representations. It has shown excellent results in various ASR tasks and can be fine-tuned for low-resource languages like Moore.</li>
+<li>campagnes de crowdsourcing dans les communautes partenaires.</li>
+<li>generation synthetique avec modification de vitesse, hauteur ou bruit.</li>
+<li>augmentation phonemique pour couvrir les variantes dialectales.</li>
 </ul>
-<h4 id="312-from-scratch-stt-model"><strong>3.1.2. From-Scratch STT Model</strong><a class="headerlink" href="#312-from-scratch-stt-model" title="Permanent link">&para;</a></h4>
-<p>For developing a <strong>custom Moore ASR model</strong>, we consider:</p>
+<h3 id="suivi-de-performance">suivi de performance<a class="headerlink" href="#suivi-de-performance" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Acoustic Modeling</strong>:</li>
-<li><strong><a href="https://arxiv.org/abs/2006.11477">Wav2Vec 2.0</a></strong>: Self-supervised speech representation learning.</li>
-<li>
-<p><strong><a href="https://arxiv.org/abs/2005.08100">Conformer</a></strong>: A hybrid convolutional and Transformer-based ASR model.</p>
-</li>
-<li>
-<p><strong>Language Modeling</strong>:</p>
-</li>
-<li><strong>Train a Moore-specific language model</strong> using Transformer-based architectures.</li>
-<li>
-<p><strong>Lexicon-based Decoding</strong>: Improves rare word recognition.</p>
-</li>
-<li>
-<p><strong>End-to-End Architectures</strong>: Unified models that combine acoustic and language modeling.</p>
-</li>
+<li><code>wer</code> comme indicateur principal.</li>
+<li><code>per</code> pour surveiller les confusions phonemiques.</li>
+<li><code>rtf</code> pour garantir une inference proche du temps reel.</li>
 </ul>
-<h3 id="32-data-collection-augmentation"><strong>3.2. Data Collection &amp; Augmentation</strong><a class="headerlink" href="#32-data-collection-augmentation" title="Permanent link">&para;</a></h3>
+<h2 id="text-to-speech">text to speech<a class="headerlink" href="#text-to-speech" title="Permanent link">&para;</a></h2>
+<h3 id="modeles-candidats">modeles candidats<a class="headerlink" href="#modeles-candidats" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Crowdsourced Moore audio datasets</strong>.</li>
-<li><strong>Synthetic speech data</strong> augmentation.</li>
-<li><strong>Phonetic-based augmentation</strong> for pronunciation variation coverage.</li>
+<li><a href="https://arxiv.org/abs/1712.05884"><code>tacotron 2</code></a> pour la qualite vocale.</li>
+<li><a href="https://arxiv.org/abs/2006.04558"><code>fastspeech 2</code></a> pour la rapidite.</li>
+<li><a href="https://arxiv.org/abs/2106.06103"><code>vits</code></a> quand on veut un pipeline de bout en bout.</li>
 </ul>
-<h3 id="33-evaluation-metrics"><strong>3.3. Evaluation Metrics</strong><a class="headerlink" href="#33-evaluation-metrics" title="Permanent link">&para;</a></h3>
+<h3 id="leviers-de-progression">leviers de progression<a class="headerlink" href="#leviers-de-progression" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Word Error Rate (WER)</strong> – Measures transcription accuracy.</li>
-<li><strong>Phoneme Error Rate (PER)</strong> – Useful for phonetic consistency.</li>
-<li><strong>Real-time Factor (RTF)</strong> – Measures inference speed.</li>
+<li>adaptation par locuteur a partir de corpus moore collectes localement.</li>
+<li>modelisation de la prosodie pour un rendu expressif.</li>
+<li>augmentation avec perturbations audio et representations phonemiques.</li>
 </ul>
-<hr />
-<h2 id="4-tts-speech-synthesis-for-moore"><strong>4. TTS – Speech Synthesis for Moore</strong><a class="headerlink" href="#4-tts-speech-synthesis-for-moore" title="Permanent link">&para;</a></h2>
-<h3 id="41-model-selection"><strong>4.1. Model Selection</strong><a class="headerlink" href="#41-model-selection" title="Permanent link">&para;</a></h3>
-<p>We consider <strong>neural TTS models</strong> optimized for <strong>low-resource languages</strong>:</p>
+<h3 id="metriques-clefs">metriques clefs<a class="headerlink" href="#metriques-clefs" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong><a href="https://arxiv.org/abs/1712.05884">Tacotron 2</a></strong> (Google) – Sequence-to-sequence model for natural speech synthesis.</li>
-<li><strong><a href="https://arxiv.org/abs/2006.04558">FastSpeech 2</a></strong> (Microsoft) – Non-autoregressive model for fast inference.</li>
-<li><strong><a href="https://arxiv.org/abs/2106.06103">VITS</a></strong> – End-to-end model with prosody control.</li>
+<li><code>mos</code> obtenu via ecoutes internes.</li>
+<li><code>mcd</code> pour suivre la qualite spectrale.</li>
+<li><code>cer</code> afin d'assurer l'intelligibilite.</li>
 </ul>
-<h3 id="42-techniques-for-improvement"><strong>4.2. Techniques for Improvement</strong><a class="headerlink" href="#42-techniques-for-improvement" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Speaker Adaptation</strong>: Fine-tune on <strong>Moore voice datasets</strong>.</li>
-<li><strong>Prosody &amp; Expressiveness Modeling</strong>: Enhancing pitch and tone variation.</li>
-<li><strong>Multilingual Pretraining</strong>: Using models trained on <strong>African languages</strong>.</li>
-<li><strong>Data Augmentation</strong>:</li>
-<li>Speech perturbation (speed, pitch, noise)</li>
-<li>Phoneme-based synthesis</li>
-</ul>
-<h3 id="43-evaluation-metrics"><strong>4.3. Evaluation Metrics</strong><a class="headerlink" href="#43-evaluation-metrics" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>MOS (Mean Opinion Score)</strong> – Human evaluation of naturalness.</li>
-<li><strong>Mel Cepstral Distortion (MCD)</strong> – Measures synthesized speech quality.</li>
-<li><strong>CER (Character Error Rate)</strong> – Measures intelligibility.</li>
-</ul>
-<hr />
-<h2 id="5-pipeline-integration-deployment"><strong>5. Pipeline Integration &amp; Deployment</strong><a class="headerlink" href="#5-pipeline-integration-deployment" title="Permanent link">&para;</a></h2>
-<h3 id="ttt"><strong>TTT</strong><a class="headerlink" href="#ttt" title="Permanent link">&para;</a></h3>
+<h2 id="integration-pipeline">integration pipeline<a class="headerlink" href="#integration-pipeline" title="Permanent link">&para;</a></h2>
+<h3 id="traduction-ecrite">traduction ecrite<a class="headerlink" href="#traduction-ecrite" title="Permanent link">&para;</a></h3>
 <pre class="mermaid"><code>graph LR;
-    A[Input Source Text ] --&gt; B[Text Preprocessing &amp; Normalization]
-    B --&gt; C[MT Model Selection]
-    C --&gt; D[Translation Model Options: 
-        NLLB / mBART-50 / M2M-100 / MarianMT / Fine-tuned Mistral]
-    D --&gt; E[Post-Translation Processing ]
-    E --&gt; F[Output: Translated Text]</code></pre>
-<h3 id="tts"><strong>TTS</strong><a class="headerlink" href="#tts" title="Permanent link">&para;</a></h3>
+    A[texte source] --&gt; B[normalisation]
+    B --&gt; C[selection du modele]
+    C --&gt; D[post-traitement]
+    D --&gt; E[texte traduit]</code></pre>
+<h3 id="chaine-voix">chaine voix<a class="headerlink" href="#chaine-voix" title="Permanent link">&para;</a></h3>
 <pre class="mermaid"><code>graph LR;
-    A[Audio Input] --&gt; B[Audio Preprocessing -Noise Reduction, Normalization];
-    B --&gt; C[ASR Model -Whisper / Wav2Vec2 / Conformer-];
-    C --&gt; D[Language Model Integration];
-    D --&gt; E[Post-processing];
-    E --&gt; F[Output: Transcribed Text];
-</code></pre>
-<hr />
-<h2 id="6-challenges"><strong>6. Challenges</strong><a class="headerlink" href="#6-challenges" title="Permanent link">&para;</a></h2>
+    A[audio] --&gt; B[pretraitement]
+    B --&gt; C[modele stt]
+    C --&gt; D[modele de langage]
+    D --&gt; E[post-traitement]
+    E --&gt; F[transcription]</code></pre>
+<h2 id="defis-a-surveiller">defis a surveiller<a class="headerlink" href="#defis-a-surveiller" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Lack of Moore training data</strong> → Data collection &amp; augmentation.</li>
-<li><strong>Dialectal Variations</strong> → Phonetic modeling techniques.</li>
-<li><strong>Efficient deployment</strong> → Lightweight models.</li>
-<li><strong>Multimodal learning</strong> (Text, Audio, Visual cues).</li>
+<li>penurie de donnees moore etiquetees.</li>
+<li>variabilite dialectale entre regions.</li>
+<li>contraintes de deploiement sur du materiel limite.</li>
+<li>besoin futur de support multimodal (texte, audio, visuel).</li>
 </ul>
 
 
@@ -1451,7 +1252,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 2, 2025 18:54:58">2025-04-02</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="October 29, 2025 23:17:25">2025-10-29</span>
   </span>
 
     
