@@ -1,172 +1,105 @@
-# SOTA for Machine Translation System
-## **1. Introduction**
+# machine translation stack
 
-Develop a modular, scalable, and open-source machine translation system for the Moore language, one of the major languages spoken in Burkina Faso. 
+Cette note expose notre approche pour un systeme de traduction couvrant le francais et le moore. L'objectif est de rester opensource, modulaire et realiste pour une equipe reduite.
 
-A system with three primary components:
+## objectifs du systeme
 
-1. **Text-to-Text Translation (MT)**: Translation between French and Moore.
+- text-to-text: traduction bidirectionnelle entre francais et moore.
+- speech-to-text: transcription des audios francais et moore.
+- text-to-speech: generation de parole naturelle en moore.
 
-2. **Speech-to-Text (STT)**: Converting spoken French and Moore into text.
+Les ressources etiquetees restent rares, d'ou l'obligation de miser sur le transfert d'apprentissage et la quantification.
 
-3. **Text-to-Speech (TTS)**: Converting translated text into natural-sounding speech in Moore.
+## text to text
 
-Given that Moore is a low-resource language with limited labeled data --> **state-of-the-art (SOTA) deep learning models** while leveraging **fine-tuning, transfer learning, and domain adaptation** techniques.
+### modeles a privilegier
 
-*Specificity of Moore language*: A lot of monolingual data
+- [`nllb-200`](https://ai.meta.com/research/no-language-left-behind/) pour la couverture des langues peu dotees.
+- [`mbart-50`](https://arxiv.org/abs/2001.08210) comme base polyvalente facile a affiner.
+- [`m2m-100`](https://arxiv.org/abs/2010.11125) pour eviter un pivot par l'anglais.
+- [`marianmt`](https://github.com/Helsinki-NLP/Opus-MT) lorsque l'on cherche un modele compacte.
+- `mistral 7b` ou autres `llm` legers apres quantification `int4`.
 
+### ameliorations cibles
 
-This document attempts to provide a **technical overview** for the selection, adaptation, and deployment of models and discusses key challenges, solutions, and future directions.
+- constitution d'un corpus parallele francais-moore et fine tuning specifique.
+- back translation pour augmenter artificiellement la portion moore.
+- couches `adapter` pour personnaliser sans toucher a tous les poids.
+- auto etiquetage via notre pipeline `stt` pour produire du parallele low-cost.
 
+### mesures de qualite
 
-## **2. Text-to-Text Translation (MT)**
+- `bleu` et `chrf++` pour suivre les progres.
+- evaluation humaine par nos locuteurs natifs.
+- suivi de la latence pour garantir une inference acceptable sur `a4000` ou `a6000`.
 
-### **2.1. Model Selection**
+## speech to text
 
-SOTA models nowadays are focused on **Transformer-based architectures**. They have become the standard in machine translation (MT). 
+### options de modele
 
-Interesting options to explore:
+- [`whisper`](https://openai.com/research/whisper) adapte au moore apres un leger affinement.
+- [`wav2vec 2.0`](https://arxiv.org/abs/2006.11477) pour profiter de l'apprentissage auto supervise.
+- architectures `conformer` lorsque l'on veut pousser la precision.
 
-- **[mBART-50](https://arxiv.org/abs/2001.08210)** (Facebook AI): A multilingual denoising autoencoder trained on 50 languages, capable of unsupervised translation and adaptation.
-- **[M2M-100](https://arxiv.org/abs/2010.11125)** (Facebook AI): A fully multilingual model supporting direct translation between 100 languages without relying on English as an intermediary.
-- **[MarianMT / OPUS-MT](https://github.com/Helsinki-NLP/Opus-MT)**: Open-source Transformer models trained on OPUS parallel corpora, well-suited for low-resource languages.
-- **[NLLB 200](https://ai.meta.com/research/no-language-left-behind/)**  At scaling machine translation across thousands of language
+### collecte et augmentation
 
-- **Other interesting option is LLM Lightweight Fine-Tuning – Mistral (https://mistral.ai/)** we can use other models also that are light phi, llama, ....
+- campagnes de crowdsourcing dans les communautes partenaires.
+- generation synthetique avec modification de vitesse, hauteur ou bruit.
+- augmentation phonemique pour couvrir les variantes dialectales.
 
-### **2.2. Benchmarking NLLB Against Previous Models**
+### suivi de performance
 
-#### **Evaluation Criteria:**
+- `wer` comme indicateur principal.
+- `per` pour surveiller les confusions phonemiques.
+- `rtf` pour garantir une inference proche du temps reel.
 
-- **Model Size and Inference Speed:**  
-  - **NLLB**: Although larger than some older models, it has been optimized for scalability and often leverages quantization techniques for faster inference on edge devices.  
-  - **MarianMT/OPUS-MT**: Generally lighter in terms of model parameters, which might be beneficial in resource-constrained environments, albeit sometimes at the cost of translation accuracy.
-  
-- **Adaptability to Low-Resource Languages:**  
-  NLLB is designed explicitly with low-resource languages in mind, offering tailored fine-tuning and domain adaptation strategies that give it an edge over more general models like mBART-50 and M2M-100 when applied to Moore.
+## text to speech
 
-- **Ease of Integration and Fine-Tuning:**  
-  All models support transfer learning and can be fine-tuned on domain-specific data. However, NLLB's architecture incorporates recent advances in multilingual training, potentially reducing the amount of fine-tuning required to achieve high accuracy.
+### modeles candidats
 
-#### **Benchmarking Summary:**
+- [`tacotron 2`](https://arxiv.org/abs/1712.05884) pour la qualite vocale.
+- [`fastspeech 2`](https://arxiv.org/abs/2006.04558) pour la rapidite.
+- [`vits`](https://arxiv.org/abs/2106.06103) quand on veut un pipeline de bout en bout.
 
-| Model               | BLEU (Low-Resource) | Inference Speed | Model Size   | Adaptability to Moore |
-|---------------------|---------------------|-----------------|--------------|-----------------------|
-| **NLLB**            | High                | Moderate        | Large (~billions parameters) | Excellent |
-| **mBART-50**        | Moderate to High    | Moderate        | Medium       | Not tested                  |
-| **M2M-100**         | Moderate            | Moderate        | Medium to Large | Not tested               |
-| **MarianMT/OPUS-MT**| Moderate            | Fast            | Small        | Not tested |
+### leviers de progression
 
-### **2.3. Techniques for Improving Translation Performance**
+- adaptation par locuteur a partir de corpus moore collectes localement.
+- modelisation de la prosodie pour un rendu expressif.
+- augmentation avec perturbations audio et representations phonemiques.
 
-- **Fine-tuning on domain-specific data**: Training models with a curated **French-Moore parallel corpus**.
-- **Back-translation** ([Reference](https://arxiv.org/abs/1609.08144)): Generating synthetic Moore-to-French translations to increase training data.
-- **Data Augmentation & Denoising**: Introducing noise, paraphrasing, and synthetic data generation to improve robustness.
-- **Adapter Layers** ([Reference](https://arxiv.org/abs/1902.00751)): Training lightweight adapter modules to specialize in Moore translation without modifying the entire model.
-- **Self Labelling**: Use STT models to transcribe audios
+### metriques clefs
 
-### **2.4. Evaluation Metrics**
-- **BLEU Score** ([Reference](https://www.aclweb.org/anthology/P02-1040.pdf)): Measures translation accuracy by comparing model outputs with human translations.
-- **CHRF++** ([Reference](https://aclanthology.org/W16-2366.pdf)): A character-based metric useful for morphologically rich languages like Moore.
-- **Human Evaluation**: Moore speakers assess fluency and adequacy.
+- `mos` obtenu via ecoutes internes.
+- `mcd` pour suivre la qualite spectrale.
+- `cer` afin d'assurer l'intelligibilite.
 
----
+## integration pipeline
 
-## **3. STT – Automatic Speech Recognition for Moore**
-
-### **3.1. Model Selection**
-
-#### **3.1.1. Whisper (OpenAI) – Pretrained Model Approach**
-- **[Whisper](https://openai.com/research/whisper)**: A multilingual ASR model trained on a large and diverse dataset, supporting **Moore transcription** and direct speech translation.
-- **Fine-tuning**: We can enhance Whisper’s accuracy on Moore speech by training on additional labeled Moore audio data.
-
-
-#### **3.1.2. Wave2Vec 2.0 (Facebook AI)**
-- **[Wav2Vec 2.0](https://ai.facebook.com/blog/wav2vec-20-learning-the-structure-of-speech-from-raw-audio/)**: A powerful self-supervised learning framework for speech representations. It has shown excellent results in various ASR tasks and can be fine-tuned for low-resource languages like Moore.
-
-
-#### **3.1.2. From-Scratch STT Model**
-For developing a **custom Moore ASR model**, we consider:
-
-- **Acoustic Modeling**:
-  - **[Wav2Vec 2.0](https://arxiv.org/abs/2006.11477)**: Self-supervised speech representation learning.
-  - **[Conformer](https://arxiv.org/abs/2005.08100)**: A hybrid convolutional and Transformer-based ASR model.
-  
-- **Language Modeling**:
-  - **Train a Moore-specific language model** using Transformer-based architectures.
-  - **Lexicon-based Decoding**: Improves rare word recognition.
-  
-- **End-to-End Architectures**: Unified models that combine acoustic and language modeling.
-
-### **3.2. Data Collection & Augmentation**
-- **Crowdsourced Moore audio datasets**.
-- **Synthetic speech data** augmentation.
-- **Phonetic-based augmentation** for pronunciation variation coverage.
-
-### **3.3. Evaluation Metrics**
-- **Word Error Rate (WER)** – Measures transcription accuracy.
-- **Phoneme Error Rate (PER)** – Useful for phonetic consistency.
-- **Real-time Factor (RTF)** – Measures inference speed.
-
----
-
-## **4. TTS – Speech Synthesis for Moore**
-
-### **4.1. Model Selection**
-
-We consider **neural TTS models** optimized for **low-resource languages**:
-
-- **[Tacotron 2](https://arxiv.org/abs/1712.05884)** (Google) – Sequence-to-sequence model for natural speech synthesis.
-- **[FastSpeech 2](https://arxiv.org/abs/2006.04558)** (Microsoft) – Non-autoregressive model for fast inference.
-- **[VITS](https://arxiv.org/abs/2106.06103)** – End-to-end model with prosody control.
-
-### **4.2. Techniques for Improvement**
-- **Speaker Adaptation**: Fine-tune on **Moore voice datasets**.
-- **Prosody & Expressiveness Modeling**: Enhancing pitch and tone variation.
-- **Multilingual Pretraining**: Using models trained on **African languages**.
-- **Data Augmentation**:
-  - Speech perturbation (speed, pitch, noise)
-  - Phoneme-based synthesis
-
-### **4.3. Evaluation Metrics**
-- **MOS (Mean Opinion Score)** – Human evaluation of naturalness.
-- **Mel Cepstral Distortion (MCD)** – Measures synthesized speech quality.
-- **CER (Character Error Rate)** – Measures intelligibility.
-
----
-
-## **5. Pipeline Integration & Deployment**
-
-### **TTT**
+### traduction ecrite
 
 ```mermaid
 graph LR;
-    A[Input Source Text ] --> B[Text Preprocessing & Normalization]
-    B --> C[MT Model Selection]
-    C --> D[Translation Model Options: 
-        NLLB / mBART-50 / M2M-100 / MarianMT / Fine-tuned Mistral]
-    D --> E[Post-Translation Processing ]
-    E --> F[Output: Translated Text]
+    A[texte source] --> B[normalisation]
+    B --> C[selection du modele]
+    C --> D[post-traitement]
+    D --> E[texte traduit]
 ```
 
-### **TTS**
+### chaine voix
 
 ```mermaid
 graph LR;
-    A[Audio Input] --> B[Audio Preprocessing -Noise Reduction, Normalization];
-    B --> C[ASR Model -Whisper / Wav2Vec2 / Conformer-];
-    C --> D[Language Model Integration];
-    D --> E[Post-processing];
-    E --> F[Output: Transcribed Text];
-
+    A[audio] --> B[pretraitement]
+    B --> C[modele stt]
+    C --> D[modele de langage]
+    D --> E[post-traitement]
+    E --> F[transcription]
 ```
 
----
+## defis a surveiller
 
-## **6. Challenges**
-
-- **Lack of Moore training data** → Data collection & augmentation.
-- **Dialectal Variations** → Phonetic modeling techniques.
-- **Efficient deployment** → Lightweight models.
-- **Multimodal learning** (Text, Audio, Visual cues).
+- penurie de donnees moore etiquetees.
+- variabilite dialectale entre regions.
+- contraintes de deploiement sur du materiel limite.
+- besoin futur de support multimodal (texte, audio, visuel).
 

@@ -1,3 +1,3 @@
-# References
+# documentation style
 
-Je me references moi-meme comme example MCP crew :)
+Cette section sert d'exemple minimal pour tester la navigation `references`.

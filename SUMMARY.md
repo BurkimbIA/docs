@@ -1,16 +1,16 @@
-# Documentation
+# documentation
 
-- [Home](index.md)
+- [home](index.md)
 
-## How-to Guides
-- [Data Access](how-to/data_storage.md)
+## how-to guides
+- [data access](how-to/data_storage.md)
 
-## Explanations
-- [SOTA for for Machine Translation](explanations/machine_translation.md)
+## explanations
+- [machine translation stack](explanations/machine_translation.md)
+- [deploiement llm sans cluster](explanations/deploiement_llm_serverless.md)
 
-## Tutorials
-- [MLOps](tutorials/mlops.md)
-- [Model Deployment](tutorials/deployment.md)
+## tutorials
+- [runpod serverless llm tutoriel](tutorials/runpod_serverless.md)
 
-## References
-- [Documentation Style](references/index.md)
+## references
+- [documentation style](references/index.md)
