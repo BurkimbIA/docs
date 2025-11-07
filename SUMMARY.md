@@ -4,6 +4,7 @@
 
 ## how-to guides
 - [data access](how-to/data_storage.md)
+- [API inferences](how-to/inference.md)
 
 ## explanations
 - [machine translation stack](explanations/machine_translation.md)
