@@ -69,6 +69,15 @@ La table ci-dessous présente les modèles ML utilisés par service :
 | Transcription | `burkimbia/BIA-WHISPER-LARGE-SACHI_V2`| 1.5B  | Audio→Texte                 |
 | TTS           | `burkimbia/BIA-SPARK-TTS-V2`         | 0.5B   | Texte→Audio                 |
 
+Pour des raisons de coûts et de complexité , nous ne déployons en production que les modèles offrant le meilleur compromis taille / qualité dans chaque categorie de service.
+
+Concrètement :
+
+- pour la famille speech (texte → voix), le modèle `burkimbia/BIA-SPARK-TTS-V2` présente aujourd'hui le meilleur rapport qualité/taille et constitue la priorité de déploiement ;
+- pour les modèles de type « decoder-only » de petite taille (inférieurs à 10 milliards de paramètres), les variantes basées sur MISTRAL donnent de bons résultat. Le prochain decoder only plus performant en terme de rapportn qualité taille remplacera mistral 
+
+Le choix final dépendra de la latence cible, de l'empreinte GPU et la taille du modèle . Mesurez le coût par 1 000 requêtes et la consommation GPU (gpu_seconds) pour prioriser les déploiements.
+
 ---
 
 ## Déploiement sur RunPod
