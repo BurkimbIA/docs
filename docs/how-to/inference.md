@@ -77,6 +77,16 @@ La table ci-dessous présente les modèles ML utilisés par service :
 
 Étapes du déploiement manuel via l'interface RunPod
 
+Avant de déployer, prenez le temps de consulter le repository `inference-endpoints`. La CI du dépôt est configurée pour reconstruire les images des services lorsqu'un changement affecte les fichiers sources du service (Dockerfile, `src/`, `requirements.txt`, etc.).
+
+Selon le workflow en place, la CI peut pousser l'image construite sur le registre et soit :
+
+- déclencher automatiquement le déploiement sur RunPod ; ou
+- ne pousser que l'image et laisser le déploiement final être lancé manuellement (via l'UI RunPod ou `deploy_runpod.py`).
+
+
+
+
 1. **Déployer l'image Docker** via l'interface RunPod
 
 ![Étape 1 - Déploiement](assets/deploy_1.png)
