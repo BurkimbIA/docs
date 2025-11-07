@@ -1118,17 +1118,20 @@
 <h1 id="documentation-api-burkimbia-services-dinference">Documentation API BurkimbIA - Services d'Inférence<a class="headerlink" href="#documentation-api-burkimbia-services-dinference" title="Permanent link">&para;</a></h1>
 <h2 id="repositories-importants">Repositories Importants<a class="headerlink" href="#repositories-importants" title="Permanent link">&para;</a></h2>
 <p><strong>Pour modifier nos API, vous devez connaître ces deux repositories :</strong></p>
-<ul>
-<li><strong><code>inference-endpoints</code></strong> (prioritaire) : Contient les modèles et le code de déploiement sur RunPod</li>
-<li><strong><code>bia-backend</code></strong> : API Gateway déployé sur Fly.io</li>
-</ul>
+<p>-- <strong>inference-endpoints</strong> (prioritaire) : Contient les modèles et le code de déploiement sur RunPod
+-- <strong>bia-backend</strong> : API Gateway déployé sur Fly.io</p>
 <p>⚠️ <strong>Important</strong> : Toute modification dans <code>inference-endpoints</code> doit être répercutée dans <code>bia-backend</code> si nécessaire.</p>
 <hr />
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
-<!-- L'infrastructure repose sur deux composants principaux :
-- inference-endpoints : Repository contenant les modèles et le code pour les servir sur RunPod (serverless)
-- bia-backend : Application FastAPI sur Fly.io qui gère l'authentification, la journalisation et le rate limiting -->
-
+<div class="admonition note">
+<p class="admonition-title">architecture</p>
+</div>
+<p>L'infrastructure repose sur deux composants principaux :</p>
+<ul>
+<li>inference-endpoints : repository contenant les modèles et le code pour les servir sur RunPod (serverless).</li>
+<li>bia-backend : application FastAPI déployée sur Fly.io, responsable de l'authentification, des logs et du rate limiting.</li>
+</ul>
+<p>Nous recommandons d'utiliser <code>bia-backend</code> comme API gateway pour centraliser l'authentification et le contrôle d'accès.</p>
 <pre class="mermaid"><code>flowchart TD
     %% Define styles for different components
     %% Bleu pour le Client, Violet pour bia-backend, Vert pour inference-endpoints
@@ -1160,11 +1163,9 @@
     class U userStyle
     class A,B backendStyle
     class T,S,V inferenceStyle</code></pre>
-<p><a class="glightbox" href="../assets/backend.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Architecture Backend" src="../assets/backend.png" /></a></p>
 <hr />
 <h2 id="services-et-modeles">Services et Modèles<a class="headerlink" href="#services-et-modeles" title="Permanent link">&para;</a></h2>
-<!-- Liste des modèles ML utilisés par service -->
-
+<p>La table ci-dessous présente les modèles ML utilisés par service :</p>
 <table>
 <thead>
 <tr>
@@ -1204,8 +1205,7 @@
 <hr />
 <h2 id="deploiement-sur-runpod">Déploiement sur RunPod<a class="headerlink" href="#deploiement-sur-runpod" title="Permanent link">&para;</a></h2>
 <h3 id="procedure">Procédure<a class="headerlink" href="#procedure" title="Permanent link">&para;</a></h3>
-<!-- Étapes du déploiement manuel via l'interface RunPod -->
-
+<p>Étapes du déploiement manuel via l'interface RunPod</p>
 <ol>
 <li><strong>Déployer l'image Docker</strong> via l'interface RunPod</li>
 </ol>
@@ -1219,7 +1219,7 @@
 </ol>
 <p><a class="glightbox" href="../assets/deploy_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Étape 3 - CI" src="../assets/deploy_3.png" /></a></p>
 <ol>
-<li><strong>Vérifier le statut du worker</strong> (passe de <code>initializing</code> à <code>idle</code>/<code>running</code>)</li>
+<li><strong>Vérifier le statut du worker</strong> (passe de initializing à idle / running)</li>
 </ol>
 <p><a class="glightbox" href="../assets/deploy_4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Étape 4 - Statut" src="../assets/deploy_4.png" /></a></p>
 <ol>
@@ -1228,12 +1228,11 @@
 <p><a class="glightbox" href="../assets/deploy_5.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Étape 5 - Service ID" src="../assets/deploy_5.png" /></a></p>
 <p><a class="glightbox" href="../assets/endpoints_on_rundpods.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Endpoints sur RunPod" src="../assets/endpoints_on_rundpods.png" /></a></p>
 <h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
-<!-- Le fichier runpod-config.json définit les endpoints, images Docker et ressources GPU -->
-
-<p>⚠️ <strong>Après chaque déploiement</strong> : Le service ID change. Mettre à jour les variables d'environnement dans <code>bia-backend</code>.</p>
+<p>Le fichier runpod-config.json définit les endpoints, images Docker et ressources GPU.</p>
+<p>⚠️ <strong>Après chaque déploiement</strong> : Le service ID change. Mettre à jour les variables d'environnement dans bia-backend.
+<a class="glightbox" href="../assets/backend.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Architecture Backend" src="../assets/backend.png" /></a></p>
 <h3 id="appel-direct-possible-mais-non-utilise">Appel direct possible (mais non utilisé)<a class="headerlink" href="#appel-direct-possible-mais-non-utilise" title="Permanent link">&para;</a></h3>
-<!-- Il est techniquement possible d'appeler directement les endpoints RunPod -->
-
+<p>Il est techniquement possible d'appeler directement les endpoints RunPod (réservé aux membres BurkimbIA)</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Exemple d&#39;appel direct RunPod (pour référence uniquement)</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.runpod.ai/v2/<span class="o">{</span>endpoint_id<span class="o">}</span>/run<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
@@ -1248,15 +1247,14 @@
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="s1">    }&#39;</span>
 </code></pre></div>
 <p><strong>Problème</strong> : RunPod fournit une seule API key pour tous les services, sans branding ni contrôle d'accès personnalisé.</p>
-<p><strong>Solution</strong> : C'est pourquoi nous utilisons <code>bia-backend</code> comme API Gateway, qui permet :
+<p><strong>Solution</strong> : C'est pourquoi nous utilisons bia-backend comme API Gateway, qui permet :
 - Gestion multi-utilisateurs avec authentification
 - Branding personnalisé (<code>api.burkimbia.com</code>)
 - Rate limiting par utilisateur
 - Logs et monitoring centralisés</p>
 <hr />
 <h2 id="utilisation-via-bia-backend">Utilisation via bia-backend<a class="headerlink" href="#utilisation-via-bia-backend" title="Permanent link">&para;</a></h2>
-<!-- L'API Gateway est le point d'entrée recommandé pour tous les services -->
-
+<p>L'API Gateway est le point d'entrée recommandé pour tous les services</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.burkimbia.com/v1/translate<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer BIA_VOTRE_TOKEN&quot;</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -1266,19 +1264,16 @@
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="s1">    &quot;tgt_lang&quot;: &quot;moore&quot;</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="s1">  }&#39;</span>
 </code></pre></div>
-<!-- Les tokens JWT ou clés API sont obtenus via le backend -->
-
+<p><em>Les tokens JWT ou clés API sont obtenus via le backend</em></p>
 <hr />
 <h2 id="debugging">Debugging<a class="headerlink" href="#debugging" title="Permanent link">&para;</a></h2>
 <h3 id="backend-bia-backend">Backend (bia-backend)<a class="headerlink" href="#backend-bia-backend" title="Permanent link">&para;</a></h3>
-<!-- Utiliser Grafana pour les logs détaillés -->
-
+<p>Utiliser Grafana pour les logs détaillés</p>
 <p>Utiliser les logs <strong>Grafana</strong> sur Fly.io :
 - URL : https://fly.io/apps/bia-backend/monitoring
 - ⏱️ Le chargement prend du temps mais fournit des informations détaillées</p>
 <h3 id="services-dinference-runpod">Services d'inférence (RunPod)<a class="headerlink" href="#services-dinference-runpod" title="Permanent link">&para;</a></h3>
-<!-- Aller dans Manage Serverless puis sélectionner le service -->
-
+<p>Aller dans Manage Serverless puis sélectionner le service.</p>
 <p><strong>Playground</strong> : Tester les requêtes interactivement</p>
 <p><a class="glightbox" href="../assets/playground.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Playground RunPod" src="../assets/playground.png" /></a></p>
 <p><strong>Logs</strong> : Consulter les logs d'exécution</p>
@@ -1304,8 +1299,7 @@
 <p><strong>Solution</strong> : Relancer simplement la CI de redéploiement.</p>
 <hr />
 <h2 id="authentification">Authentification<a class="headerlink" href="#authentification" title="Permanent link">&para;</a></h2>
-<!-- Le backend supporte plusieurs modes d'authentification -->
-
+<p>Le backend supporte plusieurs modes d'authentification</p>
 <ul>
 <li>Email/mot de passe</li>
 <li>OAuth Google</li>
@@ -1331,7 +1325,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="November 7, 2025 23:06:34">2025-11-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="November 7, 2025 23:19:49">2025-11-07</span>
   </span>
 
     
