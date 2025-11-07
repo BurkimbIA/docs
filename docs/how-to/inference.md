@@ -1,4 +1,4 @@
-# Documentation API BurkimbIA - Services d'Inférence
+# Services d'Inférence
 
 ## Repositories Importants
 
