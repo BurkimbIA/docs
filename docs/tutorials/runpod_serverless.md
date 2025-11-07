@@ -43,15 +43,15 @@ Nous détaillons pour chaque approche comment éviter ces points.
 
 > Idéal pour tester rapidement un prototype sans pipeline.
 
-1. **Créer un compte RunPod** et récupérer votre clé API (`Account` > `API Keys`).
-2. **Accéder au Dashboard** > `Serverless` > `Deploy Endpoint`.
-3. **Choisir "Bring your own container"** :
+1. **Créer un compte RunPod** et récupérer votre clé API (Account > API Keys).
+2. **Accéder au dashboard** > Serverless > Deploy Endpoint.
+3. **Choisir bring your own container** :
    - Image : `docker.io/sawalle/translation-service:latest` (ou votre tag personnalisé).
    - Entrypoint et CMD : laissez ceux du Dockerfile.
-   - GPU : sélectionner `NVIDIA RTX A6000` ou `NVIDIA L40` (bon équilibre coût/perf pour la traduction NLLB).
-4. **Configurer l'onglet Environment** :
-    - Ajouter `HF_TOKEN`, `MODEL_PATH`, `LANGUAGE_CODE`, etc.
-    - Définir `RUNPOD_INIT_TIMEOUT=800` et `RUNPOD_STOP_TIMEOUT=10`.
+   - GPU : sélectionner NVIDIA RTX A6000 ou NVIDIA L40 (bon équilibre coût/perf pour la traduction NLLB).
+4. **Configurer l'onglet environment** :
+   - Ajouter `HF_TOKEN`, `MODEL_PATH`, `LANGUAGE_CODE`, etc.
+   - Définir `RUNPOD_INIT_TIMEOUT=800` et `RUNPOD_STOP_TIMEOUT=10`.
 5. **Définir les timeouts/scaling** :
     - `idleTimeoutSeconds = 5` pour éviter les pings coûteux.
     - `minWorkers = 0`, `maxWorkers = 1` (budget serré BurkimbIA).

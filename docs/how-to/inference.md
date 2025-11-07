@@ -4,8 +4,8 @@
 
 **Pour modifier nos API, vous devez connaître ces deux repositories :**
 
-- **`inference-endpoints`** (prioritaire) : Contient les modèles et le code de déploiement sur RunPod
-- **`bia-backend`** : API Gateway déployé sur Fly.io
+-- **inference-endpoints** (prioritaire) : Contient les modèles et le code de déploiement sur RunPod
+-- **bia-backend** : API Gateway déployé sur Fly.io
 
 ⚠️ **Important** : Toute modification dans `inference-endpoints` doit être répercutée dans `bia-backend` si nécessaire.
 
@@ -13,9 +13,13 @@
 
 ## Architecture
 
-<!-- L'infrastructure repose sur deux composants principaux :
-- inference-endpoints : Repository contenant les modèles et le code pour les servir sur RunPod (serverless)
-- bia-backend : Application FastAPI sur Fly.io qui gère l'authentification, la journalisation et le rate limiting -->
+!!! note "architecture"
+  L'infrastructure repose sur deux composants principaux :
+
+  - inference-endpoints : repository contenant les modèles et le code pour les servir sur RunPod (serverless).
+  - bia-backend : application FastAPI déployée sur Fly.io, responsable de l'authentification, des logs et du rate limiting.
+
+  Nous recommandons d'utiliser `bia-backend` comme API gateway pour centraliser l'authentification et le contrôle d'accès.
 
 ```mermaid
 flowchart TD
@@ -51,13 +55,12 @@ flowchart TD
     class T,S,V inferenceStyle
 ```
 
-![Architecture Backend](assets/backend.png)
 
 ---
 
 ## Services et Modèles
 
-<!-- Liste des modèles ML utilisés par service -->
+La table ci-dessous présente les modèles ML utilisés par service :
 
 | Service       | Modèle                               | Taille | Fonction                    |
 |---------------|--------------------------------------|--------|-----------------------------|
@@ -72,7 +75,7 @@ flowchart TD
 
 ### Procédure
 
-<!-- Étapes du déploiement manuel via l'interface RunPod -->
+Étapes du déploiement manuel via l'interface RunPod
 
 1. **Déployer l'image Docker** via l'interface RunPod
 
@@ -86,7 +89,7 @@ flowchart TD
 
 ![Étape 3 - CI](assets/deploy_3.png)
 
-4. **Vérifier le statut du worker** (passe de `initializing` à `idle`/`running`)
+4. **Vérifier le statut du worker** (passe de initializing à idle / running)
 
 ![Étape 4 - Statut](assets/deploy_4.png)
 
@@ -98,13 +101,15 @@ flowchart TD
 
 ### Configuration
 
-<!-- Le fichier runpod-config.json définit les endpoints, images Docker et ressources GPU -->
+ Le fichier runpod-config.json définit les endpoints, images Docker et ressources GPU.
 
-⚠️ **Après chaque déploiement** : Le service ID change. Mettre à jour les variables d'environnement dans `bia-backend`.
+⚠️ **Après chaque déploiement** : Le service ID change. Mettre à jour les variables d'environnement dans bia-backend.
+![Architecture Backend](assets/backend.png)
+
 
 ### Appel direct possible (mais non utilisé)
 
-<!-- Il est techniquement possible d'appeler directement les endpoints RunPod -->
+Il est techniquement possible d'appeler directement les endpoints RunPod (réservé aux membres BurkimbIA)
 
 ```bash
 # Exemple d'appel direct RunPod (pour référence uniquement)
@@ -123,7 +128,7 @@ curl -X POST https://api.runpod.ai/v2/{endpoint_id}/run \
 
 **Problème** : RunPod fournit une seule API key pour tous les services, sans branding ni contrôle d'accès personnalisé.
 
-**Solution** : C'est pourquoi nous utilisons `bia-backend` comme API Gateway, qui permet :
+**Solution** : C'est pourquoi nous utilisons bia-backend comme API Gateway, qui permet :
 - Gestion multi-utilisateurs avec authentification
 - Branding personnalisé (`api.burkimbia.com`)
 - Rate limiting par utilisateur
@@ -133,7 +138,7 @@ curl -X POST https://api.runpod.ai/v2/{endpoint_id}/run \
 
 ## Utilisation via bia-backend
 
-<!-- L'API Gateway est le point d'entrée recommandé pour tous les services -->
+L'API Gateway est le point d'entrée recommandé pour tous les services
 
 ```bash
 curl -X POST https://api.burkimbia.com/v1/translate \
@@ -146,7 +151,7 @@ curl -X POST https://api.burkimbia.com/v1/translate \
   }'
 ```
 
-<!-- Les tokens JWT ou clés API sont obtenus via le backend -->
+*Les tokens JWT ou clés API sont obtenus via le backend*
 
 ---
 
@@ -154,7 +159,7 @@ curl -X POST https://api.burkimbia.com/v1/translate \
 
 ### Backend (bia-backend)
 
-<!-- Utiliser Grafana pour les logs détaillés -->
+Utiliser Grafana pour les logs détaillés
 
 Utiliser les logs **Grafana** sur Fly.io :
 - URL : https://fly.io/apps/bia-backend/monitoring
@@ -162,7 +167,7 @@ Utiliser les logs **Grafana** sur Fly.io :
 
 ### Services d'inférence (RunPod)
 
-<!-- Aller dans Manage Serverless puis sélectionner le service -->
+Aller dans Manage Serverless puis sélectionner le service.
 
 **Playground** : Tester les requêtes interactivement
 
@@ -208,7 +213,7 @@ Response: {"error":"create endpoint: create endpoint: graphql: Unable to find te
 
 ## Authentification
 
-<!-- Le backend supporte plusieurs modes d'authentification -->
+Le backend supporte plusieurs modes d'authentification
 
 - Email/mot de passe
 - OAuth Google
