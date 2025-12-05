@@ -139,8 +139,8 @@ curl -X POST https://api.runpod.ai/v2/{endpoint_id}/run \
       "input": {
         "text": "Bonjour le monde",
         "model_id": "burkimbia/BIA-NLLB-1.3B-7E",
-        "src_lang": "fr_Latn",
-        "tgt_lang": "moor_Latn"
+        "src_lang": "french",
+        "tgt_lang": "moore"
       }
     }'
 ```
@@ -161,16 +161,15 @@ L'API Gateway est le point d'entrée recommandé pour tous les services
 
 ```bash
 curl -X POST https://api.burkimbia.com/v1/translate \
-  -H "Authorization: Bearer BIA_VOTRE_TOKEN" \
+  -H "X-API-Key:  BIA_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "text": "Bonjour",
-    "src_lang": "fr",
+    "src_lang": "french",
     "tgt_lang": "moore"
   }'
 ```
 
-*Les tokens JWT ou clés API sont obtenus via le backend*
 
 ---
 
