@@ -166,7 +166,9 @@ curl -X POST https://api.burkimbia.com/v1/translate \
   -d '{
     "text": "Bonjour",
     "src_lang": "french",
-    "tgt_lang": "moore"
+    "tgt_lang": "moore",
+    "model": "burkimbia/BIA-MISTRAL-7B-SACHI"
+
   }'
 ```
 
