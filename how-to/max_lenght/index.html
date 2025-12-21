@@ -11,10 +11,10 @@
       
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../inference/">
       
       
-        <link rel="next" href="../machine_translation/">
+        <link rel="next" href="../../references/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>deploiement llm sans cluster - BurkimbIA</title>
+        <title>Comment choisir le max_length pour l'entraînement de modèles ? - BurkimbIA</title>
       
     
     
@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#deploiement-llm-sans-cluster" class="md-skip">
+        <a href="#comment-choisir-le-max_length-pour-lentrainement-de-modeles" class="md-skip">
           Skip to content
         </a>
       
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              deploiement llm sans cluster
+              Comment choisir le max_length pour l'entraînement de modèles ?
             
           </span>
         </div>
@@ -246,13 +246,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../explanations/deploiement_llm_serverless/" class="md-tabs__link">
           
   
   Explanations
@@ -266,11 +264,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../how-to/data_storage/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../data_storage/" class="md-tabs__link">
           
   
   How to
@@ -386,8 +386,6 @@
       
   
   
-    
-  
   
   
     
@@ -398,12 +396,14 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
@@ -417,7 +417,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Explanations
@@ -428,30 +428,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    deploiement llm sans cluster
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../explanations/deploiement_llm_serverless/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -460,98 +440,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#nos-contraintes-terrain" class="md-nav__link">
-    <span class="md-ellipsis">
-      nos contraintes terrain
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#comparatif-rapide-des-plateformes" class="md-nav__link">
-    <span class="md-ellipsis">
-      comparatif rapide des plateformes
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lessons-retenues-apres-un-incident-couteux" class="md-nav__link">
-    <span class="md-ellipsis">
-      lessons retenues apres un incident couteux
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#images-docker-minimalistes" class="md-nav__link">
-    <span class="md-ellipsis">
-      images docker minimalistes
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quantification-et-matrice-gpu" class="md-nav__link">
-    <span class="md-ellipsis">
-      quantification et matrice gpu
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#suivi-budgetaire-en-temps-reel" class="md-nav__link">
-    <span class="md-ellipsis">
-      suivi budgetaire en temps reel
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stack-hybride-recommandee" class="md-nav__link">
-    <span class="md-ellipsis">
-      stack hybride recommandee
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checklist-strategique-avant-tout-nouveau-modele" class="md-nav__link">
-    <span class="md-ellipsis">
-      checklist strategique avant tout nouveau modele
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -564,7 +452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../machine_translation/" class="md-nav__link">
+      <a href="../../explanations/machine_translation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -589,8 +477,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -599,14 +489,12 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -620,7 +508,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             How to
@@ -634,7 +522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../how-to/data_storage/" class="md-nav__link">
+      <a href="../data_storage/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -655,7 +543,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../how-to/inference/" class="md-nav__link">
+      <a href="../inference/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -673,10 +561,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../how-to/max_lenght/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Comment choisir le max_length pour l'entraînement de modèles ?
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -685,6 +593,173 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quest-ce-quun-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      Qu'est-ce qu'un token ?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pourquoi-le-max_length-est-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pourquoi le max_length est important ?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pourquoi le max_length est important ?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qualite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Qualité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ressources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ressources
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methodologie-choix-pragmatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthodologie : choix pragmatique
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Méthodologie : choix pragmatique">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-analyser-les-longueurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 1 — analyser les longueurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-choisir-un-percentile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 2 — choisir un percentile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-mesurer-la-couverture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 3 — mesurer la couverture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-prendre-en-compte-le-materiel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 4 — prendre en compte le matériel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-5-valider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 5 — valider
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cas-pratique-traduction-francaismoore" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cas pratique : traduction Français–Mooré
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonnes-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bonnes pratiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-eviter" class="md-nav__link">
+    <span class="md-ellipsis">
+      À éviter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -885,72 +960,147 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#nos-contraintes-terrain" class="md-nav__link">
+  <a href="#introduction" class="md-nav__link">
     <span class="md-ellipsis">
-      nos contraintes terrain
+      Introduction
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#comparatif-rapide-des-plateformes" class="md-nav__link">
+  <a href="#quest-ce-quun-token" class="md-nav__link">
     <span class="md-ellipsis">
-      comparatif rapide des plateformes
+      Qu'est-ce qu'un token ?
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#lessons-retenues-apres-un-incident-couteux" class="md-nav__link">
+  <a href="#pourquoi-le-max_length-est-important" class="md-nav__link">
     <span class="md-ellipsis">
-      lessons retenues apres un incident couteux
+      Pourquoi le max_length est important ?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pourquoi le max_length est important ?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qualite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Qualité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ressources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ressources
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methodologie-choix-pragmatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthodologie : choix pragmatique
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Méthodologie : choix pragmatique">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-analyser-les-longueurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 1 — analyser les longueurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-choisir-un-percentile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 2 — choisir un percentile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-mesurer-la-couverture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 3 — mesurer la couverture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-prendre-en-compte-le-materiel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 4 — prendre en compte le matériel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-5-valider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 5 — valider
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cas-pratique-traduction-francaismoore" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cas pratique : traduction Français–Mooré
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#images-docker-minimalistes" class="md-nav__link">
+  <a href="#bonnes-pratiques" class="md-nav__link">
     <span class="md-ellipsis">
-      images docker minimalistes
+      Bonnes pratiques
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#quantification-et-matrice-gpu" class="md-nav__link">
+  <a href="#a-eviter" class="md-nav__link">
     <span class="md-ellipsis">
-      quantification et matrice gpu
+      À éviter
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#suivi-budgetaire-en-temps-reel" class="md-nav__link">
+  <a href="#conclusion" class="md-nav__link">
     <span class="md-ellipsis">
-      suivi budgetaire en temps reel
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stack-hybride-recommandee" class="md-nav__link">
-    <span class="md-ellipsis">
-      stack hybride recommandee
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checklist-strategique-avant-tout-nouveau-modele" class="md-nav__link">
-    <span class="md-ellipsis">
-      checklist strategique avant tout nouveau modele
+      Conclusion
     </span>
   </a>
   
@@ -974,94 +1124,210 @@
   
 
 
-<h1 id="deploiement-llm-sans-cluster">deploiement llm sans cluster<a class="headerlink" href="#deploiement-llm-sans-cluster" title="Permanent link">&para;</a></h1>
-<p>Notre equipe Burkimbia doit servir des modeles pour des langues africaines sans exploser un budget limite a vingt euros par mois. Ce billet raconte comment nous avons arbitre entre plusieurs fournisseurs et pourquoi le mode serverless reste aujourd'hui notre garde fou. Pas de pas a pas ici, uniquement les choix strategiques et leurs impacts.</p>
-<h2 id="nos-contraintes-terrain">nos contraintes terrain<a class="headerlink" href="#nos-contraintes-terrain" title="Permanent link">&para;</a></h2>
+<h1 id="comment-choisir-le-max_length-pour-lentrainement-de-modeles">Comment choisir le <code>max_length</code> pour l'entraînement de modèles ?<a class="headerlink" href="#comment-choisir-le-max_length-pour-lentrainement-de-modeles" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Dans l'entraînement de modèles de traitement du langage (traduction, fine-tuning, génération), il faut souvent fixer un paramètre important : <code>max_length</code>. Il représente la longueur maximale (en tokens) que le modèle accepte pour une séquence d'entrée ou de sortie.</p>
+<p>Un <code>max_length</code> trop court peut tronquer du contenu utile ; un <code>max_length</code> trop long augmente fortement l'usage mémoire et ralentit l'entraînement. Ce guide explique une méthode simple pour choisir une valeur adaptée à votre dataset et à vos contraintes matérielles.</p>
+<hr />
+<h2 id="quest-ce-quun-token">Qu'est-ce qu'un token ?<a class="headerlink" href="#quest-ce-quun-token" title="Permanent link">&para;</a></h2>
+<p>Un token est l'unité de base utilisée par le tokenizer du modèle. Ce n'est ni un caractère strictement, ni forcément un mot entier :</p>
 <ul>
-<li>usage intermittent: environ trois mille requetes mensuelles, chacune autour de 8.5 secondes de calcul GPU.</li>
-<li>public fragile: trente pour cent des requetes sont offertes pour des apprenantes et apprenants sans moyens.</li>
-<li>equipe reduite: pas de temps pour maintenir un cluster ECS ou EKS.</li>
-<li>transparence: tout cout doit etre justifiable pour nos financeurs.</li>
+<li>1 token ≠ 1 caractère</li>
+<li>1 token ≠ 1 mot</li>
 </ul>
-<p>Ces contraintes rendent toute facturation continue impraticable. Louer un T4 en permanence chez AWS ou Azure revient a plus de 360 dollars mensuels. Avec le mode serverless, seules les secondes effectives sont facturees.</p>
-<h2 id="comparatif-rapide-des-plateformes">comparatif rapide des plateformes<a class="headerlink" href="#comparatif-rapide-des-plateformes" title="Permanent link">&para;</a></h2>
+<p>Exemples :</p>
+<ul>
+<li>« bonjour » → 1 token (mot fréquent)</li>
+<li>« intelligence » → peut être découpé en plusieurs tokens</li>
+<li>« ! » → 1 token</li>
+</ul>
+<p>En pratique, pour la plupart des tokenizers BPE/WordPiece, on observe une approximation utile : 1 token ≈ 3–4 caractères (pour les langues latines). Ainsi, 128 tokens ≈ 400–500 caractères.</p>
+<hr />
+<h2 id="pourquoi-le-max_length-est-important">Pourquoi le <code>max_length</code> est important ?<a class="headerlink" href="#pourquoi-le-max_length-est-important" title="Permanent link">&para;</a></h2>
+<h3 id="qualite">Qualité<a class="headerlink" href="#qualite" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Si <code>max_length</code> est trop faible, des exemples longs seront tronqués et le modèle perdra du contexte.</li>
+<li>Si <code>max_length</code> est trop élevé, on risque d'augmenter le bruit et de gaspiller des ressources.</li>
+</ul>
+<h3 id="ressources">Ressources<a class="headerlink" href="#ressources" title="Permanent link">&para;</a></h3>
+<p>La mémoire utilisée par un transformeur croît approximativement quadratiquement avec la longueur de séquence :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Mémoire ∝ (max_length)²
+</code></pre></div>
+<p>Exemples illustratifs :
+- <code>max_length=128</code> → baseline
+- <code>max_length=256</code> → ~4× mémoire
+- <code>max_length=512</code> → ~16× mémoire</p>
+<hr />
+<h2 id="methodologie-choix-pragmatique">Méthodologie : choix pragmatique<a class="headerlink" href="#methodologie-choix-pragmatique" title="Permanent link">&para;</a></h2>
+<h3 id="etape-1-analyser-les-longueurs">Étape 1 — analyser les longueurs<a class="headerlink" href="#etape-1-analyser-les-longueurs" title="Permanent link">&para;</a></h3>
+<p>Tokenisez votre corpus et calculez des statistiques (moyenne, médiane, percentiles, max).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoTokenizer</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;votre-modele&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">lengths</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">your_dataset</span><span class="p">:</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">enc</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">enc</span><span class="p">[</span><span class="s2">&quot;input_ids&quot;</span><span class="p">]))</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Moyenne: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> tokens&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Médiane: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> tokens&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95e percentile: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">lengths</span><span class="p">,</span><span class="w"> </span><span class="mi">95</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> tokens&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;99e percentile: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">lengths</span><span class="p">,</span><span class="w"> </span><span class="mi">99</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> tokens&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span><span class="si">}</span><span class="s2"> tokens&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="etape-2-choisir-un-percentile">Étape 2 — choisir un percentile<a class="headerlink" href="#etape-2-choisir-un-percentile" title="Permanent link">&para;</a></h3>
+<p>Règle pratique : choisissez une valeur couvrant 95–99% des exemples. Les outliers (1–5%) ne doivent pas dicter la configuration si cela entraîne une explosion des ressources.</p>
 <table>
 <thead>
 <tr>
-<th>plateforme</th>
-<th>gpu</th>
-<th>modele de facturation</th>
-<th>cout mensuel estime</th>
-<th>cout pour 1000 requetes</th>
+<th>Percentile 95</th>
+<th>max_length recommandé</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>aws ec2</td>
-<td>g4dn.xlarge</td>
-<td>720 heures payees</td>
-<td>378.72 usd</td>
-<td>126.24 usd</td>
+<td>≤ 32 tokens</td>
+<td>64</td>
 </tr>
 <tr>
-<td>azure vm</td>
-<td>nc4as_t4_v3</td>
-<td>720 heures payees</td>
-<td>378.72 usd</td>
-<td>126.24 usd</td>
+<td>33–64 tokens</td>
+<td>128</td>
 </tr>
 <tr>
-<td>hugging face endpoints</td>
-<td>t4</td>
-<td>720 heures payees</td>
-<td>360.00 usd</td>
-<td>120.00 usd</td>
+<td>65–128 tokens</td>
+<td>256</td>
 </tr>
 <tr>
-<td>runpod flex</td>
-<td>rtx a6000</td>
-<td>a la seconde</td>
-<td>8.67 usd</td>
-<td>2.89 usd</td>
+<td>129–256 tokens</td>
+<td>512</td>
+</tr>
+<tr>
+<td>&gt; 256 tokens</td>
+<td>1024 ou chunking</td>
 </tr>
 </tbody>
 </table>
-<p>Les chiffres proviennent des grilles officielles d'octobre 2025. Seul RunPod Flex respecte notre budget tout en offrant une A6000 pour les modeles de 7b quantifies.</p>
-<h2 id="lessons-retenues-apres-un-incident-couteux">lessons retenues apres un incident couteux<a class="headerlink" href="#lessons-retenues-apres-un-incident-couteux" title="Permanent link">&para;</a></h2>
-<p>Un oubli de execution timeout a prolonge un worker RunPod pendant plusieurs jours. Plus de cinq mille requetes de ping ont maintenu la session ouverte et genere des frais serverless importants. Depuis, nous appliquons trois regles:</p>
-<ol>
-<li>fixer idle_timeout et execution_timeout pour chaque endpoint.</li>
-<li>limiter max_workers a 1 tant que la charge reste faible.</li>
-<li>monitorer la frequence de ping via nos journaux et couper tout traffic suspect.</li>
-</ol>
-<h2 id="images-docker-minimalistes">images docker minimalistes<a class="headerlink" href="#images-docker-minimalistes" title="Permanent link">&para;</a></h2>
-<p>Nos premieres images PyTorch depassaient neuf gigaoctets. Cela rallongeait chaque cold start. Nous sommes passes a une base Nvidia CUDA puis installons seulement les builds necessaires (Torch, BitsAndBytes, SentencePiece). Chaque image contient directement le modele quantifie pour eviter un telechargement au demarrage. Avec cette approche, les cold start descendent sous quinze secondes sur A6000 et les surprises de facturation disparaissent.</p>
-<h2 id="quantification-et-matrice-gpu">quantification et matrice gpu<a class="headerlink" href="#quantification-et-matrice-gpu" title="Permanent link">&para;</a></h2>
-<p>Nous ne lancons aucun modele non quantifie sur RunPod. Mistral 7b passe de vingt gigaoctets en FP16 a environ quatre gigaoctets en INT4. Cela rend l'image plus legere et nous autorise a rester sur A6000 ou meme A4000 pour des charges plus modestes. La regle interne: quantifier d'abord, tester ensuite le plus petit GPU disponible, ne monter en gamme que si la latence explose.</p>
-<h2 id="suivi-budgetaire-en-temps-reel">suivi budgetaire en temps reel<a class="headerlink" href="#suivi-budgetaire-en-temps-reel" title="Permanent link">&para;</a></h2>
-<p>Trois indicateurs sont exposes dans notre tableau de bord Metabase:</p>
+<h3 id="etape-3-mesurer-la-couverture">Étape 3 — mesurer la couverture<a class="headerlink" href="#etape-3-mesurer-la-couverture" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">for</span> <span class="n">max_len</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">]:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">coverage</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lengths</span> <span class="k">if</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="n">max_len</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;max_length=</span><span class="si">{</span><span class="n">max_len</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> couvre </span><span class="si">{</span><span class="n">coverage</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% des données&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Objectif : trouver la plus petite valeur couvrant au moins 95% des exemples.</p>
+<h3 id="etape-4-prendre-en-compte-le-materiel">Étape 4 — prendre en compte le matériel<a class="headerlink" href="#etape-4-prendre-en-compte-le-materiel" title="Permanent link">&para;</a></h3>
+<p>Voir les contraintes GPU typiques :</p>
+<table>
+<thead>
+<tr>
+<th>GPU</th>
+<th>max_length (batch=8)</th>
+<th>max_length (batch=16)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T4 (16GB)</td>
+<td>512</td>
+<td>256</td>
+</tr>
+<tr>
+<td>V100 (32GB)</td>
+<td>1024</td>
+<td>512</td>
+</tr>
+<tr>
+<td>A100 (40GB)</td>
+<td>2048</td>
+<td>1024</td>
+</tr>
+<tr>
+<td>A100 (80GB)</td>
+<td>4096</td>
+<td>2048</td>
+</tr>
+</tbody>
+</table>
+<p><a class="glightbox" href="../assets/token-stats.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Statistiques des tokens" src="../assets/token-stats.png" /></a></p>
+<p><em>Distribution des longueurs (extrait).</em> </p>
+<p>Astuce : combinez <code>gradient_accumulation_steps</code> et une réduction de <code>batch_size</code> pour utiliser un <code>max_length</code> plus grand sans dépasser la mémoire.</p>
+<h3 id="etape-5-valider">Étape 5 — valider<a class="headerlink" href="#etape-5-valider" title="Permanent link">&para;</a></h3>
 <ul>
-<li>cold_start_seconds: objectif sous quinze secondes.</li>
-<li>gpu_seconds_total: converti en cout temps reel en euros.</li>
-<li>cost_per_1000_requests: alerte quand on depasse 3 usd.</li>
+<li>Mesurez le taux de troncature (exemples plus longs que <code>max_length</code>).</li>
 </ul>
-<p>Nous declenchons une alerte Slack quand quatre-vingts pour cent du budget mensuel sont consommes. La transparence vis-a-vis des partenaires rend plus faciles les demandes de financement ponctuel.</p>
-<h2 id="stack-hybride-recommandee">stack hybride recommandee<a class="headerlink" href="#stack-hybride-recommandee" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">truncated</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lengths</span> <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="n">max_length</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">truncation_rate</span> <span class="o">=</span> <span class="n">truncated</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tronqués: </span><span class="si">{</span><span class="n">truncation_rate</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% (</span><span class="si">{</span><span class="n">truncated</span><span class="si">}</span><span class="s2"> exemples)&quot;</span><span class="p">)</span>
+</code></pre></div>
 <ul>
-<li>production: endpoints RunPod Serverless en RTX A6000 avec timeouts serre.</li>
-<li>prototypes publics: Hugging Face Spaces ZeroGPU a dix dollars pour heberger des demos Gradio.</li>
-<li>experiments internes: instances locales consumer GPU pour iterer sur les quantifications.</li>
+<li>Lancez un petit entraînement test pour vérifier l'utilisation mémoire et la perte/qualité.</li>
 </ul>
-<p>Cette combinaison maintient les couts sous vingt euros par mois tout en gardant une vitrine publique simple a partager.</p>
-<h2 id="checklist-strategique-avant-tout-nouveau-modele">checklist strategique avant tout nouveau modele<a class="headerlink" href="#checklist-strategique-avant-tout-nouveau-modele" title="Permanent link">&para;</a></h2>
-<ol>
-<li>verifier la taille en FP16 puis en INT4 et mettre a jour le plan de build Docker.</li>
-<li>recalculer le cout par mille requetes avec les nouvelles latences mesurees.</li>
-<li>mettre a jour idle_timeout, execution_timeout et les limites max_workers.</li>
-<li>ajouter le modele au tableau de bord couts et tester les alertes.</li>
-<li>documenter l'impact pour les financeurs avant le lancement public.</li>
-</ol>
-<p>Rester frugal n'est pas un choix ideologique mais une condition de survie pour une organisation a but non lucratif. Cette fiche conceptuelle doit guider toute nouvelle initiative autour des LLM chez Burkimbia.</p>
+<hr />
+<h2 id="cas-pratique-traduction-francaismoore">Cas pratique : traduction Français–Mooré<a class="headerlink" href="#cas-pratique-traduction-francaismoore" title="Permanent link">&para;</a></h2>
+<p>Exemple sur un corpus de 109 543 paires de phrases (tokenisation NLLB-200).</p>
+<p><strong>Français (source)</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Moyenne: 45.2 tokens
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Médiane: 42 tokens
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>95e perc.: 80 tokens
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Max: 177 tokens
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Caractères/token (moyenne): 3.46
+</code></pre></div></p>
+<p><strong>Mooré (cible)</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Moyenne: 49.6 tokens
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Médiane: 47 tokens
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>95e perc.: 87 tokens
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Max: 175 tokens
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Caractères/token (moyenne): 2.80
+</code></pre></div></p>
+<p>Couverture observée :</p>
+<table>
+<thead>
+<tr>
+<th>max_length</th>
+<th>Couverture FR</th>
+<th>Couverture MO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>64</td>
+<td>84.8%</td>
+<td>79.5%</td>
+</tr>
+<tr>
+<td>128</td>
+<td>100.0%</td>
+<td>99.8%</td>
+</tr>
+<tr>
+<td>256</td>
+<td>100.0%</td>
+<td>100.0%</td>
+</tr>
+</tbody>
+</table>
+<p>Remarque : Mooré a tendance à donner plus de tokens pour la même longueur en caractères (tokenizer découpe plus finement).</p>
+<div class="admonition note">
+<p class="admonition-title">recommandation</p>
+</div>
+<p>Pour ce dataset, <code>max_length = 128</code> est un bon compromis : couverture quasi complète et coût mémoire raisonnable.</p>
+<hr />
+<h2 id="bonnes-pratiques">Bonnes pratiques<a class="headerlink" href="#bonnes-pratiques" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Analysez toujours les longueurs de votre dataset avant de définir <code>max_length</code>.</li>
+<li>Visez 95–99% de couverture plutôt que 100%.</li>
+<li>Surveillez le taux de troncature pendant l'entraînement.</li>
+<li>Testez sur un petit run avant d'engager des ressources importantes.</li>
+<li>Pour gérer quelques outliers, préférez le chunking ou la rééchantillonnage plutôt que d'augmenter massivement le <code>max_length</code>.</li>
+</ul>
+<h2 id="a-eviter">À éviter<a class="headerlink" href="#a-eviter" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Ne choisissez pas une valeur arbitraire sans analyse (ex. « 128 parce que c'est courant »).</li>
+<li>N'optimisez pas pour les 1% d'exemples les plus longs si cela multiplie par 4/16 la mémoire.</li>
+</ul>
+<hr />
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>Le choix de <code>max_length</code> est un compromis entre couverture des données et efficacité mémoire. La méthode recommandée : analyser la distribution, choisir un percentile (95–99%), ajouter une petite marge, valider par des tests et ajuster si nécessaire.</p>
+<p>Dans notre exemple Français–Mooré, <code>max_length = 128</code> fonctionne bien. Chaque corpus étant différent, répétez cette démarche pour vos propres données.</p>
 
 
 
