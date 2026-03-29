@@ -41,7 +41,7 @@ If you don't have SSH keys yet, follow the [SSH Key Generation Guide](https://do
    - Open your SSH config file: `~/.ssh/config`
    - This will make connections easier to manage
 
-### Step 4: Deploy a Pod
+## Step 4: Deploy a Pod
 
 1. Log in to your RunPod dashboard.
 
