@@ -1,6 +1,6 @@
 ###  Welcome
 
-Welcome to the technical documentation of the BurkimBbA project. This open-source project is not only about translation but also about building and contributing to the development of local AI for everyone. We aim to collect, process, and translate texts, audio, and videos in the Mooré language to create efficient and accessible AI-driven solutions.
+Welcome to the technical documentation of the BurkimBIA project. This open-source project is not only about translation but also about building and contributing to the development of local AI for everyone. We aim to collect, process, and translate texts, audio, and videos in the Mooré language to create efficient and accessible AI-driven solutions.
 
 ### Documentation Structure
 
