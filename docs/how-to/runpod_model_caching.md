@@ -260,6 +260,70 @@ Si `MODEL_ID` ≠ `MODEL_NAME` en termes de casse, c'est la source du problème.
 
 ---
 
+## Déployer une nouvelle release avec FlashBoot
+
+Quand vous rebuild votre image Docker avec du nouveau code, les workers FlashBoot continuent d'utiliser l'**ancien snapshot en cache**. C'est le comportement attendu — FlashBoot est conçu pour restaurer l'état rapidement, pas pour vérifier si l'image a changé.
+
+### Le problème
+
+```
+1. Vous fixez un bug dans le code
+2. Vous rebuild et push speech-latest sur Docker Hub
+3. Vous lancez une requête → le worker FlashBoot démarre en ~1s
+4. ... avec l'ancien code
+```
+
+### La solution : modifier le template
+
+Pour invalider le cache FlashBoot, il faut **modifier le template** de l'endpoint. Tout changement dans la configuration du template (image, env vars) force RunPod à recréer un snapshot frais.
+
+**Option 1 : via le MCP RunPod** (recommandé)
+
+```
+"mets à jour le template hznc9i3vuz avec IMAGE_VERSION=3"
+```
+
+Claude appelle `update-template` avec la nouvelle env var, ce qui invalide les snapshots.
+
+**Option 2 : via l'UI RunPod**
+
+1. Templates → votre template → **Edit**
+2. Ajoutez ou incrémentez une variable : `IMAGE_VERSION=3`
+3. Save
+
+**Option 3 : via l'API GraphQL**
+
+```python
+mutation = """
+mutation saveTemplate($input: SaveTemplateInput!) {
+    saveTemplate(input: $input) { id }
+}"""
+variables = {
+    "input": {
+        "id": "votre_template_id",
+        "env": [
+            {"key": "IMAGE_VERSION", "value": "3"},
+            # ... autres env vars existantes
+        ]
+    }
+}
+```
+
+### Workflow complet de release
+
+```
+1. git push → CI build → Docker push (speech-latest)
+2. Mettre à jour le template (IMAGE_VERSION++)
+3. Première requête → cold start (~40-60s, nouvelle image)
+4. FlashBoot crée un nouveau snapshot
+5. Requêtes suivantes → ~1-5s (nouveau snapshot)
+```
+
+!!! tip "Pas besoin de rolling update"
+    Contrairement aux déploiements Kubernetes, il n'y a pas de stratégie de rolling update à configurer. Avec FlashBoot + `min_workers: 0`, le cycle est naturel : pas de trafic → worker spin down → prochain démarrage = nouvelle image.
+
+---
+
 ## Checklist de déploiement
 
 Avant de déployer un nouvel endpoint, vérifiez :
