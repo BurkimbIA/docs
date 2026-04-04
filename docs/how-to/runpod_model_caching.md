@@ -192,16 +192,20 @@ repository does not exist or may require 'docker login': denied
 
 Allez dans RunPod → Templates → votre template → **Container Registry Credentials** → sélectionnez vos credentials.
 
-### Piège 4 : le Model Caching se configure dans l'UI
+### Piège 4 : le Model Caching se configure UNIQUEMENT dans l'UI
 
-Le Model Caching **ne se configure pas** dans le template ni via l'API. Il faut aller dans l'UI RunPod :
+C'est la limitation la plus frustrante. Le Model Caching **ne se configure pas** via l'API REST RunPod, ni via le MCP, ni dans le template. Il n'existe **aucun moyen de l'automatiser dans une CI/CD**. Il faut aller manuellement dans l'UI RunPod :
 
 1. Endpoint → **Manage** → **Edit Endpoint**
 2. Section **Model**
 3. Entrer le nom exact du modèle HuggingFace
 4. Ajouter votre HF token (pour les repos privés)
+5. Sauvegarder
 
-Sans cette étape, le worker démarre en mode offline mais ne trouve aucun modèle → crash.
+!!! warning "Impact sur le workflow de déploiement"
+    Cela signifie que **chaque fois que vous supprimez et recréez un endpoint** (par exemple pour forcer le pull d'une nouvelle image Docker), vous devez **refaire cette configuration manuellement**. C'est une étape qu'il est facile d'oublier, et si vous l'oubliez : le worker démarre en mode offline, ne trouve aucun modèle dans le cache, crash silencieusement, et est marqué "throttled".
+
+    On espère que RunPod exposera ce paramètre dans l'API à l'avenir. En attendant, ajoutez-le à votre checklist de déploiement.
 
 ---
 
@@ -278,4 +282,4 @@ Avec cette configuration, nos cold starts sont passés de **2-5 minutes** (Netwo
 | Translation NLLB | ~28s | ~1s |
 | Translation Mistral | ~11s | ~1.2s |
 | Transcription Whisper | ~1.4s (warm) | ~5s/12s audio |
-| Speech SparkTTS | à mesurer | à mesurer |
+| Speech SparkTTS | ~126s (1er), puis ~30s | ~24s |
