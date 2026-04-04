@@ -1,17 +1,38 @@
 # Déployer avec RunPod Model Caching
 
-Ce guide explique comment déployer des modèles HuggingFace sur RunPod Serverless en utilisant le **Model Caching** natif, sans Network Volume.
+Ce guide explique comment déployer des modèles HuggingFace sur RunPod Serverless en utilisant le **Model Caching** natif. Il documente les pièges qu'on a rencontrés et qu'on n'a trouvés nulle part dans la documentation officielle.
 
-## Pourquoi Model Caching ?
+## Notre parcours : des images lourdes au Model Caching
 
-Les Network Volumes sont liés à une **région spécifique**. Si le stock GPU est épuisé dans cette région, les endpoints sont bloqués. Le Model Caching natif de RunPod résout ce problème : RunPod pré-télécharge le modèle sur la machine hôte **avant** le démarrage du worker, sans contrainte de région.
+### Phase 1 : modèles embarqués dans les images Docker
 
-| | Network Volume | Model Caching |
-|---|---|---|
-| Contrainte de région | Oui | Non |
-| Coût mensuel | ~$1.75/25GB | Gratuit |
-| Provisioning | Manuel | Automatique |
-| Multi-région | Non | Oui |
+Au début, on embarquait les poids des modèles directement dans les images Docker. Simple, mais les images faisaient **12-15 GB** :
+
+| Service | Modèles dans l'image | Taille image |
+|---------|---------------------|-------------|
+| Speech | BiCodec (1.77 GB) + wav2vec2 + LLM (0.96 GB) | ~12 GB |
+| Transcription | Whisper V2 + V3 (2.88 GB chacun) | ~13 GB |
+| Translation | Mistral-7B 4bit (3.85 GB) + NLLB (2.33 GB) | ~15 GB |
+
+Résultat : des **cold starts de 2-5 minutes**. L'inférence elle-même prenait 3 secondes, mais les utilisateurs attendaient des minutes parce que RunPod devait puller 15 GB à chaque démarrage de worker.
+
+### Phase 2 : Network Volumes
+
+On a migré vers les [Network Volumes](https://docs.runpod.io/serverless/endpoints/manage-volumes) — les modèles sur un volume partagé, les images Docker ne contiennent que le code (~4-5 GB). Cold starts réduits à **40-60 secondes**.
+
+Mais un nouveau problème est apparu : les volumes sont liés à une **région spécifique**. Quand le stock de GPU RTX A4000 s'est épuisé en EUR-NL-1 (notre région), tous nos endpoints étaient bloqués. Workers throttled, jobs en queue infinie, impossible de servir les utilisateurs.
+
+### Phase 3 : Model Caching (actuel)
+
+Le [Model Caching](https://docs.runpod.io/serverless/endpoints/model-caching) natif de RunPod résout ce problème : RunPod pré-télécharge le modèle sur la machine hôte **avant** le démarrage du worker, sans contrainte de région. Plus de volume à gérer, plus de blocage régional.
+
+| | Images lourdes | Network Volume | Model Caching |
+|---|---|---|---|
+| Cold start | 2-5 min | 40-60s | **10-30s** |
+| Contrainte de région | Non | **Oui** | Non |
+| Coût mensuel | $0 | ~$1.75/25GB | $0 |
+| Provisioning | Automatique | Manuel | Automatique |
+| Taille image Docker | 12-15 GB | 4-5 GB | **3-4 GB** |
 
 ## Architecture : 1 endpoint = 1 modèle
 
