@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/burkimba_docs
+  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/burkimbia_docs
   IMAGE_TAG: latest
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
