@@ -11,7 +11,7 @@ on:
   workflow_dispatch:  # Allows manual triggering of the workflow
 
 env:
-  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/burkimba_docs
+  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/burkimbia_docs
   IMAGE_TAG: ${{ github.sha }}  # Tag the image with the commit SHA
   MAIN_BRANCH: main
 
