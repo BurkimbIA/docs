@@ -791,6 +791,48 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#deployer-une-nouvelle-release-avec-flashboot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Déployer une nouvelle release avec FlashBoot
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Déployer une nouvelle release avec FlashBoot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#le-probleme" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le problème
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-solution-modifier-le-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      La solution : modifier le template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-complet-de-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow complet de release
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#checklist-de-deploiement" class="md-nav__link">
     <span class="md-ellipsis">
       Checklist de déploiement
@@ -1195,6 +1237,48 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#deployer-une-nouvelle-release-avec-flashboot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Déployer une nouvelle release avec FlashBoot
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Déployer une nouvelle release avec FlashBoot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#le-probleme" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le problème
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-solution-modifier-le-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      La solution : modifier le template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-complet-de-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow complet de release
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#checklist-de-deploiement" class="md-nav__link">
     <span class="md-ellipsis">
       Checklist de déploiement
@@ -1511,6 +1595,53 @@
 </code></pre></div>
 <p>Si <code>MODEL_ID</code> ≠ <code>MODEL_NAME</code> en termes de casse, c'est la source du problème.</p>
 <hr>
+<h2 id="deployer-une-nouvelle-release-avec-flashboot">Déployer une nouvelle release avec FlashBoot<a class="headerlink" href="#deployer-une-nouvelle-release-avec-flashboot" title="Permanent link">¶</a></h2>
+<p>Quand vous rebuild votre image Docker avec du nouveau code, les workers FlashBoot continuent d'utiliser l'<strong>ancien snapshot en cache</strong>. C'est le comportement attendu — FlashBoot est conçu pour restaurer l'état rapidement, pas pour vérifier si l'image a changé.</p>
+<h3 id="le-probleme">Le problème<a class="headerlink" href="#le-probleme" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>1. Vous fixez un bug dans le code
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>2. Vous rebuild et push speech-latest sur Docker Hub
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>3. Vous lancez une requête → le worker FlashBoot démarre en ~1s
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>4. ... avec l'ancien code
+</code></pre></div>
+<h3 id="la-solution-modifier-le-template">La solution : modifier le template<a class="headerlink" href="#la-solution-modifier-le-template" title="Permanent link">¶</a></h3>
+<p>Pour invalider le cache FlashBoot, il faut <strong>modifier le template</strong> de l'endpoint. Tout changement dans la configuration du template (image, env vars) force RunPod à recréer un snapshot frais.</p>
+<p><strong>Option 1 : via le MCP RunPod</strong> (recommandé)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>"mets à jour le template hznc9i3vuz avec IMAGE_VERSION=3"
+</code></pre></div>
+<p>Claude appelle <code>update-template</code> avec la nouvelle env var, ce qui invalide les snapshots.</p>
+<p><strong>Option 2 : via l'UI RunPod</strong></p>
+<ol>
+<li>Templates → votre template → <strong>Edit</strong></li>
+<li>Ajoutez ou incrémentez une variable : <code>IMAGE_VERSION=3</code></li>
+<li>Save</li>
+</ol>
+<p><strong>Option 3 : via l'API GraphQL</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">mutation</span> <span class="o">=</span> <span class="s2">"""</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="s2">mutation saveTemplate($input: SaveTemplateInput!) {</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="s2">    saveTemplate(input: $input) { id }</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="s2">}"""</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="n">variables</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="s2">"input"</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>        <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"votre_template_id"</span><span class="p">,</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>        <span class="s2">"env"</span><span class="p">:</span> <span class="p">[</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>            <span class="p">{</span><span class="s2">"key"</span><span class="p">:</span> <span class="s2">"IMAGE_VERSION"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="s2">"3"</span><span class="p">},</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>            <span class="c1"># ... autres env vars existantes</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>        <span class="p">]</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>    <span class="p">}</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="workflow-complet-de-release">Workflow complet de release<a class="headerlink" href="#workflow-complet-de-release" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>1. git push → CI build → Docker push (speech-latest)
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>2. Mettre à jour le template (IMAGE_VERSION++)
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>3. Première requête → cold start (~40-60s, nouvelle image)
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>4. FlashBoot crée un nouveau snapshot
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>5. Requêtes suivantes → ~1-5s (nouveau snapshot)
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Pas besoin de rolling update</p>
+<p>Contrairement aux déploiements Kubernetes, il n'y a pas de stratégie de rolling update à configurer. Avec FlashBoot + <code>min_workers: 0</code>, le cycle est naturel : pas de trafic → worker spin down → prochain démarrage = nouvelle image.</p>
+</div>
+<hr>
 <h2 id="checklist-de-deploiement">Checklist de déploiement<a class="headerlink" href="#checklist-de-deploiement" title="Permanent link">¶</a></h2>
 <p>Avant de déployer un nouvel endpoint, vérifiez :</p>
 <ul class="task-list">
@@ -1576,7 +1707,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 4, 2026 01:28:15 UTC">2026-04-04</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 11, 2026 12:25:07 UTC">2026-04-11</span>
   </span>
 
     
