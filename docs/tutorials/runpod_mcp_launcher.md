@@ -112,6 +112,7 @@ env:
   S3_MODEL_URI: "{{ RUNPOD_SECRET_S3_MODEL_URI }}"
   S3_LOG_URI: "{{ RUNPOD_SECRET_S3_LOG_URI }}"
   RUNPOD_S3_SYNC_INTERVAL_SECONDS: "300"
+  RUNPOD_AUDIT_INTERVAL_SECONDS: "60"
   REQUIRE_S3_SYNC: "true"
 ```
 
@@ -237,6 +238,21 @@ Politique actuelle:
 
 Le launcher imprime cette politique au debut du log. Pour un full run, on doit voir `num_epochs=2`, `save_steps=1000`, `wandb_enabled=True`, puis les URI S3 configurees.
 
+Chaque run cree aussi un dossier d'audit autonome:
+
+```text
+/workspace/audit/moore-llm-sota/<run_id>/
+  run.log
+  progress.log
+  manifest.txt
+  resolved_config.yaml
+  train_command.txt
+  python_packages.txt
+  status.txt
+```
+
+`run.log` capture les sorties meme si la commande externe n'a pas redirige stdout. `manifest.txt` contient le run kind, les commits Git, le GPU, l'environnement masque et le chemin de la config resolue. `progress.log` ajoute un snapshot GPU/disque/checkpoints/process toutes les 60 secondes.
+
 ## Observation des logs
 
 Commandes utiles:
@@ -247,6 +263,10 @@ tail -120 /workspace/runpod_prepare.log
 tail -120 /workspace/train-smoke-1.7b.log
 ps -ef | grep -E 'train.py|uv|python' | grep -v grep
 du -sh /workspace/*
+ls -lah /workspace/audit/moore-llm-sota/latest
+tail -120 /workspace/audit/moore-llm-sota/latest/run.log
+tail -80 /workspace/audit/moore-llm-sota/latest/progress.log
+cat /workspace/audit/moore-llm-sota/latest/manifest.txt
 ```
 
 Pour verifier S3 sans afficher de secret:
