@@ -106,14 +106,17 @@ env:
   WANDB_API_KEY: "{{ RUNPOD_SECRET_WANDB_API_KEY }}"
   AWS_ACCESS_KEY_ID: "{{ RUNPOD_SECRET_AWS_ACCESS_KEY_ID }}"
   AWS_SECRET_ACCESS_KEY: "{{ RUNPOD_SECRET_AWS_SECRET_ACCESS_KEY }}"
-  AWS_DEFAULT_REGION: "{{ RUNPOD_SECRET_AWS_DEFAULT_REGION }}"
-  AWS_ENDPOINT_URL_S3: "{{ RUNPOD_SECRET_AWS_ENDPOINT_URL_S3 }}"
-  S3_CHECKPOINT_URI: "{{ RUNPOD_SECRET_S3_CHECKPOINT_URI }}"
-  S3_MODEL_URI: "{{ RUNPOD_SECRET_S3_MODEL_URI }}"
-  S3_LOG_URI: "{{ RUNPOD_SECRET_S3_LOG_URI }}"
+  AWS_DEFAULT_REGION: "auto"
+  AWS_REGION: "auto"
+  AWS_ENDPOINT_URL_S3: "https://fly.storage.tigris.dev"
+  S3_CHECKPOINT_URI: "s3://burkimbia-store/moore-llm-sota/checkpoints"
+  S3_MODEL_URI: "s3://burkimbia-store/moore-llm-sota/models"
+  S3_LOG_URI: "s3://burkimbia-store/moore-llm-sota/logs"
   RUNPOD_S3_SYNC_INTERVAL_SECONDS: "300"
   RUNPOD_AUDIT_INTERVAL_SECONDS: "60"
   REQUIRE_S3_SYNC: "true"
+  BIA_LLMS_BRANCH: "moore-multitask-xml"
+  MOORE_BRANCH: "main"
 ```
 
 Pour un smoke non officiel sans S3, mettre temporairement `REQUIRE_S3_SYNC=false`. Pour un full run, garder `REQUIRE_S3_SYNC=true`.
@@ -156,7 +159,16 @@ https://<POD_ID>-8080.proxy.runpod.net
 
 ## Preparation training
 
-Depuis le pod:
+Sur un volume vide, le chemin recommande pour un agent est de pousser le bootstrap versionne depuis un checkout local:
+
+```powershell
+Get-Content -Raw scripts\runpod_agent_bootstrap.sh | ssh -p <TCP_PORT> root@<PUBLIC_IP> 'bash -s -- prepare-bg'
+Get-Content -Raw scripts\runpod_agent_bootstrap.sh | ssh -p <TCP_PORT> root@<PUBLIC_IP> 'bash -s -- status'
+```
+
+Le bootstrap recupere les variables RunPod depuis `/proc/1/environ`, clone `moore-llm-sota` branche `main`, puis delegue a `scripts/runpod_agent.sh`.
+
+Depuis le pod, quand le repo existe:
 
 ```bash
 cd /workspace
@@ -171,7 +183,8 @@ Preparation:
 ```bash
 export GITHUB_TOKEN="${GITHUB_ACCESS_TOKEN:-$GITHUB_TOKEN}"
 export HF_TOKEN="<hf_token>"
-bash /workspace/moore-llm-sota/scripts/runpod_prepare.sh
+bash /workspace/moore-llm-sota/scripts/runpod_agent.sh prepare-bg
+bash /workspace/moore-llm-sota/scripts/runpod_agent.sh status
 ```
 
 Logs recommandés:
@@ -198,8 +211,9 @@ RunPod setup complete
 Ne pas lancer directement un full run. Commencer par:
 
 ```bash
-nohup bash /workspace/moore-llm-sota/scripts/runpod_train.sh smoke-1.7b > /workspace/train-smoke-1.7b.log 2>&1 &
-tail -f /workspace/train-smoke-1.7b.log
+bash /workspace/moore-llm-sota/scripts/runpod_agent.sh doctor
+bash /workspace/moore-llm-sota/scripts/runpod_agent.sh smoke-1.7b
+bash /workspace/moore-llm-sota/scripts/runpod_agent.sh follow
 ```
 
 Le smoke doit prouver:
@@ -217,15 +231,14 @@ Le smoke doit prouver:
 Le chemin officiel utilise le launcher du repo, pas des overrides `--cli_config.*`.
 
 ```bash
-nohup bash /workspace/moore-llm-sota/scripts/runpod_train.sh full-1.7b > /workspace/train-full-1.7b.log 2>&1 &
-tail -f /workspace/train-full-1.7b.log
+bash /workspace/moore-llm-sota/scripts/runpod_agent.sh full-1.7b
+bash /workspace/moore-llm-sota/scripts/runpod_agent.sh status
 ```
 
 Puis, seulement si le 1.7B est bon qualitativement:
 
 ```bash
-nohup bash /workspace/moore-llm-sota/scripts/runpod_train.sh full-4b > /workspace/train-full-4b.log 2>&1 &
-tail -f /workspace/train-full-4b.log
+bash /workspace/moore-llm-sota/scripts/runpod_agent.sh full-4b
 ```
 
 Politique actuelle:
@@ -260,7 +273,8 @@ Commandes utiles:
 ```bash
 nvidia-smi
 tail -120 /workspace/runpod_prepare.log
-tail -120 /workspace/train-smoke-1.7b.log
+bash /workspace/moore-llm-sota/scripts/runpod_agent.sh logs
+bash /workspace/moore-llm-sota/scripts/runpod_agent.sh progress
 ps -ef | grep -E 'train.py|uv|python' | grep -v grep
 du -sh /workspace/*
 ls -lah /workspace/audit/moore-llm-sota/latest
