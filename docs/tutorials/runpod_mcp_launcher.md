@@ -10,6 +10,7 @@ Le cas concret ici est le smoke du modele `Qwen/Qwen3-1.7B` sur le dataset prive
 - Utiliser VS Code Remote-SSH ou `code-server` pour inspecter le pod.
 - Installer `bia-llms` et `moore-llm-sota`.
 - Lancer un smoke run court avant tout entrainement complet.
+- Rendre visibles W&B, epochs, checkpoints et S3 dans le template.
 - Garder des logs exploitables dans `/workspace`.
 - Stopper ou supprimer les pods instables pour eviter les couts inutiles.
 
@@ -21,7 +22,7 @@ Variables locales cote machine Codex:
 $env:RUNPOD_API_KEY = "<runpod_api_key>"
 $env:GITHUB_ACCESS_TOKEN = "<github_token_repo_private>"
 $env:HF_TOKEN = "<huggingface_token_dataset_prive>"
-$env:WANDB_API_KEY = "<wandb_key_optional>"
+$env:WANDB_API_KEY = "<wandb_key>"
 ```
 
 Dans l'interface RunPod, il est preferable d'enregistrer les secrets sous ces noms:
@@ -30,6 +31,13 @@ Dans l'interface RunPod, il est preferable d'enregistrer les secrets sous ces no
 GITHUB_ACCESS_TOKEN
 HF_TOKEN
 WANDB_API_KEY
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+AWS_DEFAULT_REGION
+AWS_ENDPOINT_URL_S3
+S3_CHECKPOINT_URI
+S3_MODEL_URI
+S3_LOG_URI
 ```
 
 Important: les secrets enregistres dans l'interface RunPod ne sont pas toujours lisibles directement par MCP. Ils sont utilisables quand ils sont injectes comme variables d'environnement dans un pod ou un template. Ne pas supposer que MCP peut les relire.
@@ -75,6 +83,8 @@ Pour un smoke `Qwen3-1.7B`, demander au MCP un GPU 24 GB minimum. Les meilleurs 
 Exemple de specification:
 
 ```text
+templateId: bgqn0opi39
+templateName: moore-llm-sota-training-template
 cloudType: COMMUNITY ou SECURE selon stock
 imageName: runpod/pytorch:2.8.0-py3.11-cuda12.8.1-cudnn-devel-ubuntu22.04
 gpuCount: 1
@@ -90,7 +100,22 @@ env:
   HF_HOME: /workspace/.cache/huggingface
   TRANSFORMERS_CACHE: /workspace/.cache/huggingface
   WANDB_PROJECT: moore-llm-sota
+  GITHUB_ACCESS_TOKEN: "{{ RUNPOD_SECRET_GITHUB_ACCESS_TOKEN }}"
+  GITHUB_TOKEN: "{{ RUNPOD_SECRET_GITHUB_ACCESS_TOKEN }}"
+  HF_TOKEN: "{{ RUNPOD_SECRET_HF_TOKEN }}"
+  WANDB_API_KEY: "{{ RUNPOD_SECRET_WANDB_API_KEY }}"
+  AWS_ACCESS_KEY_ID: "{{ RUNPOD_SECRET_AWS_ACCESS_KEY_ID }}"
+  AWS_SECRET_ACCESS_KEY: "{{ RUNPOD_SECRET_AWS_SECRET_ACCESS_KEY }}"
+  AWS_DEFAULT_REGION: "{{ RUNPOD_SECRET_AWS_DEFAULT_REGION }}"
+  AWS_ENDPOINT_URL_S3: "{{ RUNPOD_SECRET_AWS_ENDPOINT_URL_S3 }}"
+  S3_CHECKPOINT_URI: "{{ RUNPOD_SECRET_S3_CHECKPOINT_URI }}"
+  S3_MODEL_URI: "{{ RUNPOD_SECRET_S3_MODEL_URI }}"
+  S3_LOG_URI: "{{ RUNPOD_SECRET_S3_LOG_URI }}"
+  RUNPOD_S3_SYNC_INTERVAL_SECONDS: "300"
+  REQUIRE_S3_SYNC: "true"
 ```
+
+Pour un smoke non officiel sans S3, mettre temporairement `REQUIRE_S3_SYNC=false`. Pour un full run, garder `REQUIRE_S3_SYNC=true`.
 
 Le `stockStatus=Low` ne garantit pas que la creation passera. RunPod peut retourner:
 
@@ -145,7 +170,6 @@ Preparation:
 ```bash
 export GITHUB_TOKEN="${GITHUB_ACCESS_TOKEN:-$GITHUB_TOKEN}"
 export HF_TOKEN="<hf_token>"
-export WANDB_API_KEY=""
 bash /workspace/moore-llm-sota/scripts/runpod_prepare.sh
 ```
 
@@ -183,8 +207,35 @@ Le smoke doit prouver:
 - chargement du modele `Qwen/Qwen3-1.7B`;
 - detection CUDA;
 - demarrage SFT/QLoRA;
-- generation/evaluation aux steps prevus;
+- cap exact a `max_steps=30`;
+- W&B actif dans le projet `moore-llm-sota`;
 - pas de repetition massive des tags XML.
+
+## Full training
+
+Le chemin officiel utilise le launcher du repo, pas des overrides `--cli_config.*`.
+
+```bash
+nohup bash /workspace/moore-llm-sota/scripts/runpod_train.sh full-1.7b > /workspace/train-full-1.7b.log 2>&1 &
+tail -f /workspace/train-full-1.7b.log
+```
+
+Puis, seulement si le 1.7B est bon qualitativement:
+
+```bash
+nohup bash /workspace/moore-llm-sota/scripts/runpod_train.sh full-4b > /workspace/train-full-4b.log 2>&1 &
+tail -f /workspace/train-full-4b.log
+```
+
+Politique actuelle:
+
+| Run | Modele | Longueur | Checkpoints | W&B | S3 |
+| --- | --- | --- | --- | --- | --- |
+| `smoke-1.7b` | `Qwen/Qwen3-1.7B` | `max_steps=30` | non | oui | sync finale si configure |
+| `full-1.7b` | `Qwen/Qwen3-1.7B` | `2 epochs` | toutes les `1000` steps, garder `3` | oui | sync periodique + finale |
+| `full-4b` | `Qwen/Qwen3-4B` | `2 epochs` | toutes les `1000` steps, garder `3` | oui | sync periodique + finale |
+
+Le launcher imprime cette politique au debut du log. Pour un full run, on doit voir `num_epochs=2`, `save_steps=1000`, `wandb_enabled=True`, puis les URI S3 configurees.
 
 ## Observation des logs
 
@@ -196,6 +247,12 @@ tail -120 /workspace/runpod_prepare.log
 tail -120 /workspace/train-smoke-1.7b.log
 ps -ef | grep -E 'train.py|uv|python' | grep -v grep
 du -sh /workspace/*
+```
+
+Pour verifier S3 sans afficher de secret:
+
+```bash
+grep -E 'S3 sync|resolved run_kind|wandb_enabled|save_steps|num_epochs' /workspace/train-full-1.7b.log
 ```
 
 Si SSH tombe mais MCP voit encore le pod `RUNNING`, verifier la fiche machine. Une note comme celle-ci indique une machine instable:
@@ -226,8 +283,10 @@ Conclusion: le flux MCP fonctionne, mais il faut automatiser les fallbacks GPU e
 ## Regles de securite et couts
 
 - Ne jamais commiter les tokens.
+- Ne pas mettre de tokens bruts dans les templates; utiliser `{{ RUNPOD_SECRET_* }}`.
 - Preferer `GITHUB_ACCESS_TOKEN`, `HF_TOKEN`, `WANDB_API_KEY` comme noms standards.
-- Pour smoke, W&B peut etre desactive.
+- Pour les full runs, W&B doit rester actif.
+- Pour les full runs, S3 doit etre configure avec `REQUIRE_S3_SYNC=true`.
 - Toujours observer `runpod_prepare.log` avant de lancer le training.
 - Stopper un pod instable immediatement.
 - Terminer un pod inutile si on n'a plus besoin du volume.
