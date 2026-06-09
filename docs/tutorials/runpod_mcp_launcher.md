@@ -3,6 +3,7 @@
 Ce guide documente notre chemin pratique pour piloter RunPod depuis Codex avec MCP, creer un pod GPU, preparer `bia-llms`, lancer un smoke training, puis observer les logs. Il complete le guide manuel [runpod pods setup](runpod_pods_setup.md).
 
 Le cas concret ici est le smoke du modele `Qwen/Qwen3-1.7B` sur le dataset prive `burkimbia/moore-instruct-v1`.
+La branche projet pour `moore-llm-sota` est toujours `main`, et le workflow training la checkout explicitement.
 
 ## Objectif
 
@@ -77,8 +78,11 @@ Redemarrer Codex apres modification MCP. Les serveurs MCP sont charges au demarr
 
 Pour un smoke `Qwen3-1.7B`, demander au MCP un GPU 24 GB minimum. Les meilleurs choix pratiques:
 
-- `NVIDIA RTX A5000` ou `NVIDIA GeForce RTX 4090` pour smoke 1.7B.
+- Debug: local/CPU d'abord, puis GPU 16-24 GB seulement si CUDA doit etre teste. Chercher A4000, A4500, RTX 4000 Ada, RTX 2000 Ada, A5000, L4 ou 3090 selon le prix live.
+- `NVIDIA RTX A5000` ou `NVIDIA GeForce RTX 4090` pour smoke 1.7B apres validation locale.
 - `NVIDIA L40`, `RTX A6000`, `RTX 6000 Ada` pour plus de marge et eventuellement un run 4B.
+
+Ne pas utiliser A6000/L40/48 GB pour setup, docs, template edits ou debug scripts. Ces GPUs sont reserves aux full runs approuves ou aux smoke finaux.
 
 Exemple de specification:
 
@@ -99,6 +103,10 @@ env:
   RUNPOD_INIT_TIMEOUT: "600"
   HF_HOME: /workspace/.cache/huggingface
   TRANSFORMERS_CACHE: /workspace/.cache/huggingface
+  XDG_CACHE_HOME: /workspace/.cache
+  UV_CACHE_DIR: /workspace/.cache/uv
+  UV_PROJECT_ENVIRONMENT: /workspace/.venv/bia-llms
+  UV_LINK_MODE: copy
   WANDB_PROJECT: moore-llm-sota
   GITHUB_ACCESS_TOKEN: "{{ RUNPOD_SECRET_GITHUB_ACCESS_TOKEN }}"
   GITHUB_TOKEN: "{{ RUNPOD_SECRET_GITHUB_ACCESS_TOKEN }}"
@@ -114,12 +122,16 @@ env:
   S3_LOG_URI: "s3://burkimbia-store/moore-llm-sota/logs"
   RUNPOD_S3_SYNC_INTERVAL_SECONDS: "300"
   RUNPOD_AUDIT_INTERVAL_SECONDS: "60"
+  RUNPOD_SKIP_UV_SYNC: "false"
   REQUIRE_S3_SYNC: "true"
   BIA_LLMS_BRANCH: "moore-multitask-xml"
+  BIA_LLMS_FALLBACK_BRANCH: "main"
   MOORE_BRANCH: "main"
 ```
 
 Pour un smoke non officiel sans S3, mettre temporairement `REQUIRE_S3_SYNC=false`. Pour un full run, garder `REQUIRE_S3_SYNC=true`.
+
+Le premier `uv sync --extra cu128 --all-groups` sur volume neuf peut prendre plusieurs minutes, meme avec un petit GPU, parce qu'il telecharge PyTorch, CUDA, xFormers, bitsandbytes et Unsloth. Garder les caches sous `/workspace/.cache` et l'environnement sous `/workspace/.venv/bia-llms`. Si une image ou un volume contient deja l'environnement synchronise, mettre `RUNPOD_SKIP_UV_SYNC=true`; sinon le premier prepare est la phase lente a surveiller et a stopper si elle bloque.
 
 Le `stockStatus=Low` ne garantit pas que la creation passera. RunPod peut retourner:
 
@@ -162,9 +174,13 @@ https://<POD_ID>-8080.proxy.runpod.net
 Sur un volume vide, le chemin recommande pour un agent est de pousser le bootstrap versionne depuis un checkout local:
 
 ```powershell
-Get-Content -Raw scripts\runpod_agent_bootstrap.sh | ssh -p <TCP_PORT> root@<PUBLIC_IP> 'bash -s -- prepare-bg'
-Get-Content -Raw scripts\runpod_agent_bootstrap.sh | ssh -p <TCP_PORT> root@<PUBLIC_IP> 'bash -s -- status'
+scp -P <TCP_PORT> scripts\runpod_agent_bootstrap.sh root@<PUBLIC_IP>:/tmp/runpod_agent_bootstrap.sh
+ssh -p <TCP_PORT> root@<PUBLIC_IP> "sed -i 's/\r$//' /tmp/runpod_agent_bootstrap.sh && bash /tmp/runpod_agent_bootstrap.sh prepare-bg"
+ssh -p <TCP_PORT> root@<PUBLIC_IP> 'bash /workspace/moore-llm-sota/scripts/runpod_agent.sh status'
 ```
+
+Sous Windows PowerShell, ne pas envoyer directement `Get-Content -Raw` vers
+Bash: les fins de ligne CRLF peuvent interrompre le script avant le bootstrap.
 
 Le bootstrap recupere les variables RunPod depuis `/proc/1/environ`, clone `moore-llm-sota` branche `main`, puis delegue a `scripts/runpod_agent.sh`.
 
@@ -172,7 +188,7 @@ Depuis le pod, quand le repo existe:
 
 ```bash
 cd /workspace
-git clone https://github.com/BurkimbIA/moore-llm-sota.git
+git clone --branch main https://github.com/BurkimbIA/moore-llm-sota.git
 cd moore-llm-sota
 ```
 
