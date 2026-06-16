@@ -64,6 +64,25 @@ resp = requests.post(
 print(resp.json()["output"])
 ```
 
+En Java (`java.net.http`, JDK 17+) :
+
+```java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+var body = """
+    {"text":"Bonjour, comment vas-tu ?","src_lang":"french","tgt_lang":"moore","model":"bia-translation-v1"}""";
+var req = HttpRequest.newBuilder(URI.create("https://api.burkimbia.com/api/v1/translate"))
+    .header("X-API-Key", System.getenv("BIA_API_KEY"))
+    .header("Content-Type", "application/json")
+    .POST(HttpRequest.BodyPublishers.ofString(body))
+    .build();
+var resp = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
+System.out.println(resp.body());
+```
+
 !!! tip "Traduire une liste"
     `text` accepte aussi une liste (max 20 éléments, 256 caractères chacun) ;
     la réponse garde le même type (liste → liste).
@@ -120,6 +139,28 @@ with open("audio.wav", "rb") as f:
 print(resp.json()["text"])
 ```
 
+En Java (méthode base64, sans gestion multipart) :
+
+```java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Base64;
+
+var b64 = Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("audio.wav")));
+var body = "{\"audio_base64\":\"" + b64 + "\",\"language\":\"mos\",\"model\":\"bia-transcription-v1\"}";
+var req = HttpRequest.newBuilder(URI.create("https://api.burkimbia.com/api/v1/transcribe"))
+    .header("X-API-Key", System.getenv("BIA_API_KEY"))
+    .header("Content-Type", "application/json")
+    .POST(HttpRequest.BodyPublishers.ofString(body))
+    .build();
+var resp = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
+System.out.println(resp.body());
+```
+
 ## Synthèse vocale (TTS)
 
 ```bash
@@ -141,6 +182,34 @@ resp = requests.post(
 )
 with open("sortie.wav", "wb") as out:
     out.write(base64.b64decode(resp.json()["wav"]))
+```
+
+En Java :
+
+```java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Base64;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+var body = """
+    {"text":"Ne y windga","gender":"male","model":"bia-tts-v1"}""";
+var req = HttpRequest.newBuilder(URI.create("https://api.burkimbia.com/api/v1/tts"))
+    .header("X-API-Key", System.getenv("BIA_API_KEY"))
+    .header("Content-Type", "application/json")
+    .POST(HttpRequest.BodyPublishers.ofString(body))
+    .build();
+var resp = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
+// Extraire le champ "wav" (en production, préférez un parseur JSON comme Jackson)
+Matcher m = Pattern.compile("\"wav\"\\s*:\\s*\"([^\"]+)\"").matcher(resp.body());
+if (m.find()) {
+    Files.write(Path.of("sortie.wav"), Base64.getDecoder().decode(m.group(1)));
+}
 ```
 
 ## Bon à savoir
