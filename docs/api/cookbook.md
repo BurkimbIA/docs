@@ -1,7 +1,21 @@
 # Cookbook API BurkimbIA
 
-Recettes prêtes à l'emploi pour appeler les API BurkimbIA (traduction,
-transcription, synthèse vocale) en `curl` et en Python.
+Recettes pour appeler les API BurkimbIA (traduction, transcription, synthèse
+vocale) en `curl`, en Python et en Java.
+
+!!! warning "Mode serverless et cold start (à lire avant d'intégrer)"
+    Les API tournent en **serverless / scale-to-zero** : les modèles s'éteignent
+    quand ils sont inactifs et se rallument à la demande. Latence moyenne
+    observée :
+
+    - **Sans cold start** (modèle déjà chaud) : environ **1 à 3 s**.
+    - **Avec cold start** (premier appel après une période d'inactivité) :
+      environ **30 à 50 s**, le temps de réveiller le worker GPU et de charger le
+      modèle en VRAM. Ça peut dépasser une minute en cas de forte pénurie de GPU.
+
+    En pratique : prévoyez un timeout client généreux (≥ 60 s). Le premier appel
+    d'une session est lent, les suivants sont rapides tant que le modèle reste
+    chaud.
 
 ## Base et authentification
 
@@ -214,9 +228,7 @@ if (m.find()) {
 
 ## Bon à savoir
 
-- **Premier appel lent** : les modèles tournent en *scale-to-zero*. Le premier
-  appel après une période d'inactivité démarre le modèle (~30 à 50 s), puis les
-  appels suivants sont rapides (~1 à 2 s). Prévoyez un timeout client généreux.
+- **Cold start** : voir l'encadré en haut de page (latence du premier appel).
 - **Quota** : un dépassement du quota journalier renvoie `429`.
 - **Erreurs courantes** : `401` (clé absente ou invalide), `422` (entrée
   invalide, par exemple une langue autre que `french`/`moore` ou un `model`
