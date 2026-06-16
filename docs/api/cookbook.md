@@ -42,60 +42,62 @@ identifiants internes ne sont pas exposés.
 
 ## Traduction
 
-```bash
-curl -X POST https://api.burkimbia.com/api/v1/translate \
-  -H "X-API-Key: $BIA_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "text": "Bonjour, comment vas-tu ?",
-    "src_lang": "french",
-    "tgt_lang": "moore",
-    "model": "bia-translation-v1"
-  }'
-```
+=== "curl"
+
+    ```bash
+    curl -X POST https://api.burkimbia.com/api/v1/translate \
+      -H "X-API-Key: $BIA_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "text": "Bonjour, comment vas-tu ?",
+        "src_lang": "french",
+        "tgt_lang": "moore",
+        "model": "bia-translation-v1"
+      }'
+    ```
+
+=== "Python"
+
+    ```python
+    import os, requests
+
+    resp = requests.post(
+        "https://api.burkimbia.com/api/v1/translate",
+        headers={"X-API-Key": os.environ["BIA_API_KEY"]},
+        json={
+            "text": "Bonjour, comment vas-tu ?",
+            "src_lang": "french",
+            "tgt_lang": "moore",
+            "model": "bia-translation-v1",
+        },
+        timeout=120,
+    )
+    print(resp.json()["output"])
+    ```
+
+=== "Java"
+
+    ```java
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    var body = """
+        {"text":"Bonjour, comment vas-tu ?","src_lang":"french","tgt_lang":"moore","model":"bia-translation-v1"}""";
+    var req = HttpRequest.newBuilder(URI.create("https://api.burkimbia.com/api/v1/translate"))
+        .header("X-API-Key", System.getenv("BIA_API_KEY"))
+        .header("Content-Type", "application/json")
+        .POST(HttpRequest.BodyPublishers.ofString(body))
+        .build();
+    var resp = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
+    System.out.println(resp.body());
+    ```
 
 Réponse :
 
 ```json
 { "output": "Yibeoogo, laafi laafi??", "src_lang": "french", "tgt_lang": "moore" }
-```
-
-En Python :
-
-```python
-import os, requests
-
-resp = requests.post(
-    "https://api.burkimbia.com/api/v1/translate",
-    headers={"X-API-Key": os.environ["BIA_API_KEY"]},
-    json={
-        "text": "Bonjour, comment vas-tu ?",
-        "src_lang": "french",
-        "tgt_lang": "moore",
-        "model": "bia-translation-v1",
-    },
-    timeout=120,
-)
-print(resp.json()["output"])
-```
-
-En Java (`java.net.http`, JDK 17+) :
-
-```java
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-var body = """
-    {"text":"Bonjour, comment vas-tu ?","src_lang":"french","tgt_lang":"moore","model":"bia-translation-v1"}""";
-var req = HttpRequest.newBuilder(URI.create("https://api.burkimbia.com/api/v1/translate"))
-    .header("X-API-Key", System.getenv("BIA_API_KEY"))
-    .header("Content-Type", "application/json")
-    .POST(HttpRequest.BodyPublishers.ofString(body))
-    .build();
-var resp = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
-System.out.println(resp.body());
 ```
 
 !!! tip "Traduire une liste"
@@ -104,33 +106,57 @@ System.out.println(resp.body());
 
 ## Transcription
 
-Trois façons d'envoyer l'audio. Choisissez-en une.
+L'audio s'envoie en fichier multipart (recommandé), via une URL publique, ou en
+base64.
 
-**1. Fichier en multipart (le plus simple)** : route `/transcribe/file`.
+=== "curl"
 
-```bash
-curl -X POST https://api.burkimbia.com/api/v1/transcribe/file \
-  -H "X-API-Key: $BIA_API_KEY" \
-  -F "file=@audio.wav;type=audio/wav" \
-  -F "language=mos" \
-  -F "model=bia-transcription-v1"
-```
+    ```bash
+    curl -X POST https://api.burkimbia.com/api/v1/transcribe/file \
+      -H "X-API-Key: $BIA_API_KEY" \
+      -F "file=@audio.wav;type=audio/wav" \
+      -F "language=mos" \
+      -F "model=bia-transcription-v1"
+    ```
 
-**2. URL audio publique** : route `/transcribe`.
+=== "Python"
 
-```bash
-curl -X POST https://api.burkimbia.com/api/v1/transcribe \
-  -H "X-API-Key: $BIA_API_KEY" -H "Content-Type: application/json" \
-  -d '{"audio_url": "https://exemple.com/audio.wav", "language": "mos", "model": "bia-transcription-v1"}'
-```
+    ```python
+    import os, requests
 
-**3. Audio encodé en base64** : route `/transcribe`.
+    with open("audio.wav", "rb") as f:
+        resp = requests.post(
+            "https://api.burkimbia.com/api/v1/transcribe/file",
+            headers={"X-API-Key": os.environ["BIA_API_KEY"]},
+            files={"file": ("audio.wav", f, "audio/wav")},
+            data={"language": "mos", "model": "bia-transcription-v1"},
+            timeout=200,
+        )
+    print(resp.json()["text"])
+    ```
 
-```bash
-curl -X POST https://api.burkimbia.com/api/v1/transcribe \
-  -H "X-API-Key: $BIA_API_KEY" -H "Content-Type: application/json" \
-  -d "{\"audio_base64\": \"$(base64 -w0 audio.wav)\", \"language\": \"mos\", \"model\": \"bia-transcription-v1\"}"
-```
+=== "Java"
+
+    ```java
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+    import java.nio.file.Files;
+    import java.nio.file.Path;
+    import java.util.Base64;
+
+    // Méthode base64 (la route /transcribe accepte audio_base64)
+    var b64 = Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("audio.wav")));
+    var body = "{\"audio_base64\":\"" + b64 + "\",\"language\":\"mos\",\"model\":\"bia-transcription-v1\"}";
+    var req = HttpRequest.newBuilder(URI.create("https://api.burkimbia.com/api/v1/transcribe"))
+        .header("X-API-Key", System.getenv("BIA_API_KEY"))
+        .header("Content-Type", "application/json")
+        .POST(HttpRequest.BodyPublishers.ofString(body))
+        .build();
+    var resp = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
+    System.out.println(resp.body());
+    ```
 
 Réponse :
 
@@ -138,94 +164,74 @@ Réponse :
 { "text": "ninsaal pa tõe n yã n yɩɩg a yãab ye.", "chunks": [], "language": "mos", "model": "bia-transcription-v1" }
 ```
 
-En Python (multipart) :
+??? note "Variantes : URL ou base64 (route /transcribe)"
 
-```python
-import os, requests
+    ```bash
+    # Depuis une URL publique
+    curl -X POST https://api.burkimbia.com/api/v1/transcribe \
+      -H "X-API-Key: $BIA_API_KEY" -H "Content-Type: application/json" \
+      -d '{"audio_url": "https://exemple.com/audio.wav", "language": "mos", "model": "bia-transcription-v1"}'
 
-with open("audio.wav", "rb") as f:
-    resp = requests.post(
-        "https://api.burkimbia.com/api/v1/transcribe/file",
-        headers={"X-API-Key": os.environ["BIA_API_KEY"]},
-        files={"file": ("audio.wav", f, "audio/wav")},
-        data={"language": "mos", "model": "bia-transcription-v1"},
-        timeout=200,
-    )
-print(resp.json()["text"])
-```
-
-En Java (méthode base64, sans gestion multipart) :
-
-```java
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Base64;
-
-var b64 = Base64.getEncoder().encodeToString(Files.readAllBytes(Path.of("audio.wav")));
-var body = "{\"audio_base64\":\"" + b64 + "\",\"language\":\"mos\",\"model\":\"bia-transcription-v1\"}";
-var req = HttpRequest.newBuilder(URI.create("https://api.burkimbia.com/api/v1/transcribe"))
-    .header("X-API-Key", System.getenv("BIA_API_KEY"))
-    .header("Content-Type", "application/json")
-    .POST(HttpRequest.BodyPublishers.ofString(body))
-    .build();
-var resp = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
-System.out.println(resp.body());
-```
+    # Depuis un fichier local encodé en base64
+    curl -X POST https://api.burkimbia.com/api/v1/transcribe \
+      -H "X-API-Key: $BIA_API_KEY" -H "Content-Type: application/json" \
+      -d "{\"audio_base64\": \"$(base64 -w0 audio.wav)\", \"language\": \"mos\", \"model\": \"bia-transcription-v1\"}"
+    ```
 
 ## Synthèse vocale (TTS)
 
-```bash
-curl -X POST https://api.burkimbia.com/api/v1/tts \
-  -H "X-API-Key: $BIA_API_KEY" -H "Content-Type: application/json" \
-  -d '{"text": "Ne y windga", "gender": "male", "model": "bia-tts-v1"}'
-```
+La réponse contient l'audio WAV encodé en base64 dans le champ `wav`.
 
-La réponse contient l'audio WAV encodé en base64 dans le champ `wav` :
+=== "curl"
 
-```python
-import os, base64, requests
+    ```bash
+    curl -X POST https://api.burkimbia.com/api/v1/tts \
+      -H "X-API-Key: $BIA_API_KEY" -H "Content-Type: application/json" \
+      -d '{"text": "Ne y windga", "gender": "male", "model": "bia-tts-v1"}'
+    ```
 
-resp = requests.post(
-    "https://api.burkimbia.com/api/v1/tts",
-    headers={"X-API-Key": os.environ["BIA_API_KEY"]},
-    json={"text": "Ne y windga", "gender": "male", "model": "bia-tts-v1"},
-    timeout=200,
-)
-with open("sortie.wav", "wb") as out:
-    out.write(base64.b64decode(resp.json()["wav"]))
-```
+=== "Python"
 
-En Java :
+    ```python
+    import os, base64, requests
 
-```java
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Base64;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+    resp = requests.post(
+        "https://api.burkimbia.com/api/v1/tts",
+        headers={"X-API-Key": os.environ["BIA_API_KEY"]},
+        json={"text": "Ne y windga", "gender": "male", "model": "bia-tts-v1"},
+        timeout=200,
+    )
+    with open("sortie.wav", "wb") as out:
+        out.write(base64.b64decode(resp.json()["wav"]))
+    ```
 
-var body = """
-    {"text":"Ne y windga","gender":"male","model":"bia-tts-v1"}""";
-var req = HttpRequest.newBuilder(URI.create("https://api.burkimbia.com/api/v1/tts"))
-    .header("X-API-Key", System.getenv("BIA_API_KEY"))
-    .header("Content-Type", "application/json")
-    .POST(HttpRequest.BodyPublishers.ofString(body))
-    .build();
-var resp = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
-// Extraire le champ "wav" (en production, préférez un parseur JSON comme Jackson)
-Matcher m = Pattern.compile("\"wav\"\\s*:\\s*\"([^\"]+)\"").matcher(resp.body());
-if (m.find()) {
-    Files.write(Path.of("sortie.wav"), Base64.getDecoder().decode(m.group(1)));
-}
-```
+=== "Java"
+
+    ```java
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+    import java.nio.file.Files;
+    import java.nio.file.Path;
+    import java.util.Base64;
+    import java.util.regex.Matcher;
+    import java.util.regex.Pattern;
+
+    var body = """
+        {"text":"Ne y windga","gender":"male","model":"bia-tts-v1"}""";
+    var req = HttpRequest.newBuilder(URI.create("https://api.burkimbia.com/api/v1/tts"))
+        .header("X-API-Key", System.getenv("BIA_API_KEY"))
+        .header("Content-Type", "application/json")
+        .POST(HttpRequest.BodyPublishers.ofString(body))
+        .build();
+    var resp = HttpClient.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
+    // Extraire le champ "wav" (en production, préférez un parseur JSON comme Jackson)
+    Matcher m = Pattern.compile("\"wav\"\\s*:\\s*\"([^\"]+)\"").matcher(resp.body());
+    if (m.find()) {
+        Files.write(Path.of("sortie.wav"), Base64.getDecoder().decode(m.group(1)));
+    }
+    ```
 
 ## Bon à savoir
 
