@@ -7,6 +7,10 @@
 - [data access](how-to/data_storage.md)
 - [API inferences](how-to/inference.md)
 
+## API
+
+- [Cookbook API (recettes curl & Python)](api/cookbook.md)
+
 ## explanations
 
 - [machine translation stack](explanations/machine_translation.md)
