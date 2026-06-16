@@ -3,6 +3,8 @@
 Recettes pour appeler les API BurkimbIA (traduction, transcription, synthèse
 vocale) en `curl`, en Python et en Java.
 
+**Documentation interactive (testez les endpoints en direct) :** [Swagger](https://api.burkimbia.com/docs) ou [ReDoc](https://api.burkimbia.com/redoc).
+
 !!! warning "Mode serverless et cold start (à lire avant d'intégrer)"
     Les API tournent en **serverless / scale-to-zero** : les modèles s'éteignent
     quand ils sont inactifs et se rallument à la demande. Latence moyenne
@@ -22,7 +24,6 @@ vocale) en `curl`, en Python et en Java.
 - **Base URL** : `https://api.burkimbia.com/api/v1`
 - **Authentification** : en-tête `X-API-Key: <votre_clé>` (les clés commencent par `bia_`).
 - **Obtenir une clé** : depuis la plateforme [Rɛɛm-doogo](https://platform.burkimbia.com) (section *API Tokens*).
-- **Documentation interactive** : [Swagger](https://api.burkimbia.com/docs) ou [ReDoc](https://api.burkimbia.com/redoc).
 
 !!! note "Codes de langue"
     Utilisez les mots `french` et `moore` (pas `fr` ni `mos`).
